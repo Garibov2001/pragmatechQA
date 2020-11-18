@@ -1,0 +1,1 @@
+Modallar js ile modal sekiline getirilecek deye onlarin urllerini duzeltmedim
