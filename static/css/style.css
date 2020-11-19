@@ -10663,3 +10663,85 @@ html.ie.gecko body.modal-open {
 	transform: rotate(45deg)
 }
 
+
+
+   .accordian{
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+
+
+        width: 100%;
+       font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+   }
+
+
+   .accordian .contentBx{
+       position: relative;
+       margin: 10px 20px;
+   }
+
+   .accordian .contentBx .label{
+       position: relative;
+       padding: 10px;
+       background: #2172cd;
+       color: #fff;
+       cursor: pointer;
+   }
+
+
+   .accordian .contentBx .label::before{
+    content: '+';
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+   }
+
+
+   .accordian .contentBx.active .label::before{
+    content: '-';
+   }
+
+   .accordian .contentBx .content {
+       position: relative;
+       background: #F8F9FB;
+       height: 0;
+       overflow: hidden;
+       transition: 0.5s;
+       overflow: auto;
+   }
+
+   .accordian .contentBx.active .content{
+       height: 150px;
+       padding: 10px;
+   }
+
+   @media (max-width: 800px) {
+      .accordian{
+
+        width: 400px;
+
+      }
+    }
+
+    @media (max-width: 424px) {
+        .accordian{
+
+          width: 310px;
+
+        }
+      }
+
+    @media (max-width: 374px) {
+        .accordian{
+
+          width: 280px;
+
+        }
+      }
+
+  
+
+
