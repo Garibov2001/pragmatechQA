@@ -12,6 +12,9 @@
     <!-- Site icon in Tab -->
     <link rel="shortcut icon" href="{% static 'images/favicon/favicon.ico' %}" />
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
@@ -57,44 +60,21 @@
               <nav>
                 <ul>
                   <li>
-                    <a href="../categories/page-categories.html"><span>Categories</span></a>
+                    <a href="page-create-topic.html"><span>Suallar</span></a>
                   </li>
                   <li>
-                    <a href="page-tabs.html"><span>Trending</span></a>
+                    <a href="../categories/page-categories.html"><span>Taqlar</span></a>
                   </li>
                   <li>
-                    <a href="page-create-topic.html"><span>New</span></a>
+                    <a href="page-tabs.html"><span>FAQ</span></a>
                   </li>
                   <li>
-                    <a href="../single-user/page-single-user.html"><span>Pages</span></a>
+                    <a href="../single-user/page-single-user.html"
+                      ><span>Daha çox <i class="fas fa-caret-down"></i></span
+                    ></a>
                     <ul>
-                      <li><a href="home.html">Home</a></li>
-                      <li><a href="../single-user/page-single-topic.html">Single Topic</a></li>
-                      <li><a href="page-create-topic.html">Create Topic</a></li>
-                      <li><a href="../single-user/page-single-user.html">Single User Activity</a></li>
-                      <li><a href="../single-user/page-single_threads.html">Single User Threads</a></li>
-                      <li><a href="../single-user/page-single_replies.html">Single User Replies</a></li>
-                      <li><a href="../single-user/page-single_followers.html">Single User Followers</a></li>
-                      <li><a href="../categories/page-categories-single.html">Single User Categories</a></li>
-                      <li><a href="../single-user/page-single_settings.html">Single User Settings</a></li>
-                      <li><a href="../auth/page-signup.html">Sign up</a></li>
-                      <li><a href="../auth/page-login.html">Log in</a></li>
-                      <li><a href="../categories/page-categories.html">Categories</a></li>
-                      <li><a href="../categories/page-categories-single.html">Single Category</a></li>
-                      <li><a href="page-tabs.html">About</a></li>
-                      <li><a href="page-tabs_guidelines.html">Guidelines</a></li>
-                      <!-- Asagidaki modali js ile edeceyik -->
-                      <li><a href="../modals/_demo_modal-advancedSearch.html">Advanced Search</a></li>
-
-                      <li><a href="../error_pages/error404.html">Error 404</a></li>
-
-                      <!-- Asagidaki modali js ile edeceyik -->
-                      <li><a href="../modals/_demo_modal-age-confirmation.html">Age Verification</a></li>
-
-                      <!-- Asagidaki modali js ile edeceyik -->
-                      <li><a href="../modals/_demo_modal-level-up.html">Level up Notification</a></li>
-                      <li><a href="../messages/messages-page.html">Message</a></li>
-                      <li><a href="../messages/messages-compose.html">Message Compose</a></li>
+                      <li><a href="page-tabs_guidelines.html">Qaydalar</a></li>
+                      <li><a href="page-tabs.html">İstifadəçilər</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -114,9 +94,7 @@
                 <div class="search-form">
                   <input type="text" class="tt-search__input" placeholder="Search" />
                   <button class="tt-search__btn" type="submit">
-                    <svg class="tt-icon">
-                      <use xlink:href="#icon-search"></use>
-                    </svg>
+                    <i class="fas fa-search" style="color: #666f74;"></i>
                   </button>
                   <button class="tt-search__close">
                     <svg class="tt-icon">
