@@ -54,7 +54,7 @@
             <!-- /toggle mobile menu -->
             <!-- logo -->
             <div class="tt-logo">
-              <a href="home.html"><img src="{% static 'images/app_images/logo.png' %}" alt="" /></a>
+              <a href="{% url 'student-home' %}"><img src="{% static 'images/app_images/logo.png' %}" alt="" /></a>
             </div>
             <!-- /logo -->
             <!-- desktop menu -->
@@ -62,21 +62,21 @@
               <nav>
                 <ul>
                   <li>
-                    <a href="page-create-topic.html"><span>Suallar</span></a>
+                    <a href="{% url 'student-home' %}"><span>Suallar</span></a>
                   </li>
                   <li>
-                    <a href="../categories/page-categories.html"><span>Taqlar</span></a>
+                    <a href="{% url 'student-tags' %}"><span>Taqlar</span></a>
                   </li>
                   <li>
                     <a href="page-tabs.html"><span>FAQ</span></a>
                   </li>
                   <li>
-                    <a href="../single-user/page-single-user.html"
+                    <a href="#"
                       ><span>Daha çox <i class="fas fa-caret-down"></i></span
                     ></a>
                     <ul>
-                      <li><a href="page-tabs_guidelines.html">Qaydalar</a></li>
-                      <li><a href="page-tabs.html">İstifadəçilər</a></li>
+                      <li><a href="{% url 'student-rules' %}">Qaydalar</a></li>
+                      <li><a href="{% url 'student-about' %}">İstifadəçilər</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -88,7 +88,7 @@
               <!-- toggle -->
               <button class="tt-search-toggle" data-toggle="modal" data-target="#modalAdvancedSearch">
                 <svg class="tt-icon">
-                  <use xlink:href="#icon-search"></use>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117 117" id="icon-search"><path d="M54 108C24.22 108 0 83.78 0 54S24.22 0 54 0s54 24.22 54 54-24.22 54-54 54zm0-99C29.19 9 9 29.19 9 54s20.19 45 45 45 45-20.19 45-45S78.81 9 54 9z"></path><path d="M112.5 117c-1.15 0-2.3-.44-3.18-1.32l-23.5-23.5a4.49 4.49 0 0 1 0-6.36 4.49 4.49 0 0 1 6.36 0l23.5 23.5a4.49 4.49 0 0 1 0 6.36c-.88.88-2.03 1.32-3.18 1.32z"></path></svg>
                 </svg>
               </button>
               <!-- /toggle -->
@@ -96,7 +96,9 @@
                 <div class="search-form">
                   <input type="text" class="tt-search__input" placeholder="Search" />
                   <button class="tt-search__btn" type="submit">
-                    <i class="fas fa-search" style="color: #666f74;"></i>
+                    <svg class="tt-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117 117" id="icon-search"><path d="M54 108C24.22 108 0 83.78 0 54S24.22 0 54 0s54 24.22 54 54-24.22 54-54 54zm0-99C29.19 9 9 29.19 9 54s20.19 45 45 45 45-20.19 45-45S78.81 9 54 9z"></path><path d="M112.5 117c-1.15 0-2.3-.44-3.18-1.32l-23.5-23.5a4.49 4.49 0 0 1 0-6.36 4.49 4.49 0 0 1 6.36 0l23.5 23.5a4.49 4.49 0 0 1 0 6.36c-.88.88-2.03 1.32-3.18 1.32z"></path></svg>
+                    </svg>
                   </button>
                   <button class="tt-search__close">
                     <svg class="tt-icon">
@@ -250,7 +252,7 @@
         </div>
       </form>
     </div>
-    <a href="page-create-topic.html" class="tt-btn-create-topic">
+    <a href="{% url 'student_page_create_topic' %}" class="tt-btn-create-topic">
       <span class="tt-icon">
         <svg>
           <use xlink:href="#icon-create_new">
