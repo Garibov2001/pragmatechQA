@@ -18,3 +18,6 @@ def tag_info(request):
 def about(request):
     return render(request, 'main_page/about.html')
 
+def rules(request):
+    return render(request, 'main_page/rules.html')
+
