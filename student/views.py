@@ -15,6 +15,6 @@ def tag_info(request):
     }
     return render(request, 'categories/single_tag_info.html', context)
 
-def staff_and_users(request):
-    return render(request, 'categories/single_tag_info.html')
+def about(request):
+    return render(request, 'main_page/about.html')
 

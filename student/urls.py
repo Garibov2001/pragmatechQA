@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.home, name='student-home'),
     path('tags/', views.tags, name='student-tags'),
     path('tags/index', views.tag_info, name='student-tags-index'),
+    path('about/', views.about, name='student-about'),
 ]
