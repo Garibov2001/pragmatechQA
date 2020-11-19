@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 def home(request):
     context={
     }
@@ -21,3 +22,7 @@ def about(request):
 def rules(request):
     return render(request, 'main_page/rules.html')
 
+def page_create_topic(request):
+    context={
+    }
+    return render(request, 'main_page/page-create-topic.html', context)
