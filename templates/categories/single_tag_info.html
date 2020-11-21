@@ -1,10 +1,54 @@
-
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
 
-<main id="tt-pageContent" class="tt-offset-small">
+<main id="tt-pageContent">
     <div class="container">
+        <div class="tt-catSingle-title">
+            <div class="tt-innerwrapper tt-row">
+                <div class="tt-col-left">
+                    <ul class="tt-list-badge">
+                        <li><a href="#"><span class="tt-color01 tt-badge">python</span></a></li>
+                    </ul>
+                </div>
+                <div class="ml-left tt-col-right">
+                    <div class="tt-col-item">
+                        <h2 class="tt-value">Suallar - 1,245</h2>
+                    </div>
+                    <div class="tt-col-item">
+                        <div class="tt-search">
+                            <form class="search-wrapper">
+                                <div class="search-form">
+                                    <input type="text" class="tt-search__input" placeholder="Axtar..">
+                                    <button class="tt-search__btn" type="submit">
+                                        <svg class="tt-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117 117" id="icon-search"><path d="M54 108C24.22 108 0 83.78 0 54S24.22 0 54 0s54 24.22 54 54-24.22 54-54 54zm0-99C29.19 9 9 29.19 9 54s20.19 45 45 45 45-20.19 45-45S78.81 9 54 9z"></path><path d="M112.5 117c-1.15 0-2.3-.44-3.18-1.32l-23.5-23.5a4.49 4.49 0 0 1 0-6.36 4.49 4.49 0 0 1 6.36 0l23.5 23.5a4.49 4.49 0 0 1 0 6.36c-.88.88-2.03 1.32-3.18 1.32z"></path></svg>
+                                        </svg>
+                                    </button>
+                                     <button class="tt-search__close">
+                                       <svg class="tt-icon">
+                                          <use xlink:href="#icon-cancel"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tt-innerwrapper">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores impedit porro recusandae, nesciunt veniam ut. Eaque autem accusamus consectetur, sit soluta, voluptatum quam assumenda modi asperiores veniam rem ullam quas.
+            </div>
+            <div class="tt-innerwrapper">
+                <h6 class="tt-title">Oxşar taglar</h6>
+                <ul class="tt-list-badge">
+                    <li><a href="#"><span class="tt-badge">django</span></a></li>
+                    <li><a href="#"><span class="tt-badge">flask</span></a></li>
+                    <li><a href="#"><span class="tt-badge">falsk-sqlalchemy</span></a></li>
+                    <li><a href="#"><span class="tt-badge">dynamic urls</span></a></li>                  
+                </ul>
+            </div>
+        </div>
         <div class="tt-topic-list">
             <div class="tt-list-header">
                 <div class="tt-col-topic">Topic</div>
@@ -13,9 +57,6 @@
                 <div class="tt-col-value hide-mobile">Replies</div>
                 <div class="tt-col-value hide-mobile">Views</div>
                 <div class="tt-col-value">Activity</div>
-            </div>
-            <div class="tt-topic-alert tt-alert-default" role="alert">
-            <a href="#" target="_blank">4 new posts</a> are added recently, click here to load them.
             </div>
             <div class="tt-item">
                 <div class="tt-col-avatar">
@@ -40,7 +81,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tt-col-category"><span class="tt-color01 tt-badge">politics</span></div>
+                <div class="tt-col-category"><span class="tt-color01 tt-badge">python</span></div>
                 <div class="tt-col-value hide-mobile">985</div>
                 <div class="tt-col-value tt-color-select hide-mobile">502</div>
                 <div class="tt-col-value hide-mobile">15.1k</div>
@@ -65,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tt-col-category"><span class="tt-color02 tt-badge">video</span></div>
+                <div class="tt-col-category"><span class="tt-color01 tt-badge">python</span></div>
                 <div class="tt-col-value hide-mobile">584</div>
                 <div class="tt-col-value tt-color-select  hide-mobile">35</div>
                 <div class="tt-col-value hide-mobile">1.3k</div>
@@ -92,7 +133,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tt-col-category"><span class="tt-color03 tt-badge">exchange</span></div>
+                <div class="tt-col-category"><span class="tt-color01 tt-badge">python</span></div>
                 <div class="tt-col-value  hide-mobile">401</div>
                 <div class="tt-col-value tt-color-select  hide-mobile">975</div>
                 <div class="tt-col-value  hide-mobile">12.6k</div>
@@ -119,7 +160,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tt-col-category"><span class="tt-color04 tt-badge">pets</span></div>
+                <div class="tt-col-category"><span class="tt-color01 tt-badge">python</span></div>
                 <div class="tt-col-value  hide-mobile">308</div>
                 <div class="tt-col-value tt-color-select  hide-mobile">660</div>
                 <div class="tt-col-value  hide-mobile">8.3k</div>
@@ -144,32 +185,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="tt-col-category"><span class="tt-color05 tt-badge">music</span></div>
+                <div class="tt-col-category"><span class="tt-color01 tt-badge">python</span></div>
                 <div class="tt-col-value hide-mobile">358</div>
                 <div class="tt-col-value tt-color-select hide-mobile">68</div>
                 <div class="tt-col-value hide-mobile">8.3k</div>
                 <div class="tt-col-value hide-mobile">1d</div>
-            </div>
-            <div class="tt-item tt-item-popup">
-                <div class="tt-col-avatar">
-                    <svg class="tt-icon">
-                    <use xlink:href="#icon-ava-f"></use>
-                    </svg>
-                </div>
-                <div class="tt-col-message">
-                    Looks like you are new here. Register for free, learn and contribute.
-                </div>
-                <div class="tt-col-btn">
-                    <a href="../auth/page-login.html" class="btn btn-primary">Daxil ol</a>
-                    <a href="../auth/page-signup.html" class="btn btn-secondary">Qeydiyyat</a>
-                    <button type="button" class="btn-icon">
-                        <svg class="tt-icon">
-                        <use xlink:href="#icon-cancel"></use>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            
+            </div>            
             <div class="tt-row-btn">
                 <button type="button" class="btn-icon js-topiclist-showmore">
                     <svg class="tt-icon">
@@ -182,3 +203,8 @@
 </main>
 
 {% endblock content %}
+
+
+
+
+
