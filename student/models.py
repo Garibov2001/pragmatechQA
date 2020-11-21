@@ -7,6 +7,14 @@ class Group(models.Model):
 
 # Create your models here.
 
+class Setting(models.Model):
+    communityRules = models.CharField(max_length = 255, name="cRules")
+
+
+class Faq(models.Model):
+    title = models.CharField(max_length = 120, verbose_name = "Başlıq")
+    content = models.CharField(max_length = 200, verbose_name = "Məzmun")
+
 class category(models.Model):
     """Model definition for category."""
 
@@ -57,4 +65,5 @@ class Actions(models.Model):
     question = models.CharField(max_length=255) #Burada foreign key olacaq 
     reply_date = models.DateTimeField(default = timezone.now)
     action_type = models.BooleanField()  # False - 'Downvote', True - 'Upvote',  
+
 

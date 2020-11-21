@@ -618,7 +618,12 @@
                 </div>
                 <div class="tab-pane" id="tt-tab-04" role="tabpanel">
                     <div class="tt-wrapper-inner tt-layout-tab">
-                        tab-content Terms of Service
+<!--                        tab-content Terms of Service-->
+                        {% for cRule in cRules %}
+
+                            <p>{{ cRule }}</p>
+
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="tab-pane" id="tt-tab-05" role="tabpanel">
