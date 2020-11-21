@@ -26,3 +26,6 @@ def page_create_topic(request):
     context={
     }
     return render(request, 'main_page/page-create-topic.html', context)
+
+def user_details(request):
+    return render(request, 'single-user/page-single-user.html')
