@@ -3,7 +3,7 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(Group)
+admin.site.register(StudyGroup)
 admin.site.register(Student)
 
 class SettingAdmin(admin.ModelAdmin):

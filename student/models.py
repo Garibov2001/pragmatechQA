@@ -1,9 +1,9 @@
 from django.db import models
 from django.utils import timezone
-
+from django.contrib.auth.models import User
 # Create your models here.
 
-class Group(models.Model):
+class StudyGroup(models.Model):
     """Model definition for Group."""
     name = models.CharField(verbose_name=("Ad"), max_length=255)
 
@@ -21,12 +21,9 @@ class Group(models.Model):
 class Student(models.Model):
     """Model definition for Student."""
 
-    name = models.CharField(verbose_name=("Ad"), max_length=255)
-    surname = models.CharField(verbose_name=("Soyad"), max_length=255)
-    email = models.CharField(verbose_name=("Email"), max_length=255)
-    username = models.CharField(verbose_name=("İstifadəçi adı"), max_length=255)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)    
     picture = models.ImageField(verbose_name=("Şəkil"), upload_to='static/images/profile_images')
-    group = models.ForeignKey(Group ,verbose_name=("Qrup"), on_delete = models.PROTECT)
+    study_group = models.ForeignKey(StudyGroup ,verbose_name=("Qrup"), on_delete = models.PROTECT)
 
     class Meta:
         """Meta definition for Student."""
