@@ -9,6 +9,9 @@
     <meta name="description" content="Forum - PragmatechQA" />
     <meta name="author" content="Pragmatech Team" />
 
+    <!-- Bootstrap 4.3 -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
     <!-- Site icon in Tab -->
     <link rel="shortcut icon" href="{% static 'images/favicon/favicon.ico' %}" />
 
@@ -393,6 +396,8 @@
     </div>
 
     <!-- Application JS -->
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>
 
     {% block script %} {% endblock script %}

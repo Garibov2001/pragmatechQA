@@ -25,7 +25,7 @@ def rules(request):
 def page_create_topic(request):
     context={
     }
-    return render(request, 'main_page/page-create-topic.html', context)
+    return render(request, 'main_page/post_create.html', context)
 
 def user_details(request):
     return render(request, 'single-user/page-single-user.html')
