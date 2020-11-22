@@ -1,5 +1,6 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from .models import Question
+from .forms import QuestionForm
 
 def home(request):
     context={
@@ -23,7 +24,14 @@ def rules(request):
     return render(request, 'main_page/rules.html')
 
 def post_create(request):
+    form = QuestionForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            print(Question.objects.last().tags.all())
+            return redirect('student-home')
     context={
+        'form':form,
     }
     return render(request, 'main_page/post_create.html', context)
 

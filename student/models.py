@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+from taggit.managers import TaggableManager
 
 class Group(models.Model):
     name = models.CharField(max_length=255)
@@ -15,30 +15,11 @@ class Faq(models.Model):
     title = models.CharField(max_length = 120, verbose_name = "Başlıq")
     content = models.CharField(max_length = 200, verbose_name = "Məzmun")
 
-
-class Category(models.Model):
-    """Model definition for Category."""
-
-    name = models.CharField(verbose_name=("Ad"), max_length=50)
-
-    description = models.TextField(verbose_name=("Açıqlama"))
-
-    class Meta:
-        """Meta definition for Category."""
-
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
-
-    def __str__(self):
-        """Unicode representation of category."""
-        return self.name
-
-
 class Question(models.Model):
     """Model definition for Question."""
 
     title = models.CharField(verbose_name=("Başlıq"), max_length=50)
-    category = models.ManyToManyField("Category", verbose_name=("Kategoriya"))
+    tags = TaggableManager()
     content = models.TextField(verbose_name=("Kontent"))
 
 
@@ -51,7 +32,7 @@ class Question(models.Model):
     def __str__(self):
         """Unicode representation of question."""
         return self.title
-
+    
 
 class Student(models.Model):
     name = models.CharField(max_length=255)

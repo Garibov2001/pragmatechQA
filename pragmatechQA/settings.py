@@ -41,6 +41,8 @@ INSTALLED_APPS = [
 
     # Custom Applications
     'student.apps.StudentConfig',
+
+    'taggit',
 ]
 
 MIDDLEWARE = [
