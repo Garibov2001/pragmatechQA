@@ -22,7 +22,7 @@ def about(request):
 def rules(request):
     return render(request, 'main_page/rules.html')
 
-def page_create_topic(request):
+def post_create(request):
     context={
     }
     return render(request, 'main_page/post_create.html', context)

@@ -15,15 +15,16 @@ class Faq(models.Model):
     title = models.CharField(max_length = 120, verbose_name = "Başlıq")
     content = models.CharField(max_length = 200, verbose_name = "Məzmun")
 
-class category(models.Model):
-    """Model definition for category."""
+
+class Category(models.Model):
+    """Model definition for Category."""
 
     name = models.CharField(verbose_name=("Ad"), max_length=50)
 
     description = models.TextField(verbose_name=("Açıqlama"))
 
     class Meta:
-        """Meta definition for category."""
+        """Meta definition for Category."""
 
         verbose_name = 'category'
         verbose_name_plural = 'categories'
@@ -33,16 +34,16 @@ class category(models.Model):
         return self.name
 
 
-class question(models.Model):
-    """Model definition for question."""
+class Question(models.Model):
+    """Model definition for Question."""
 
     title = models.CharField(verbose_name=("Başlıq"), max_length=50)
-    category = models.ManyToManyField("category", verbose_name=("Kategoriya"))
+    category = models.ManyToManyField("Category", verbose_name=("Kategoriya"))
     content = models.TextField(verbose_name=("Kontent"))
 
 
     class Meta:
-        """Meta definition for question."""
+        """Meta definition for Question."""
 
         verbose_name = 'question'
         verbose_name_plural = 'questions'
@@ -50,6 +51,7 @@ class question(models.Model):
     def __str__(self):
         """Unicode representation of question."""
         return self.title
+
 
 class Student(models.Model):
     name = models.CharField(max_length=255)
