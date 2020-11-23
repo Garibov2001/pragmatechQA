@@ -6,7 +6,7 @@
 
 <main id="tt-pageContent">
     <div class="container">
-        <div class="tt-wrapper-inner">
+        <div class="tt-wrapper-inner mb-5">
             <h1 class="tt-title-border">
                 Yeni Mövzu yaradın
             </h1>
@@ -97,11 +97,25 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="inputTopicTags">Taqlar</label>
-                                <input type="tags" name="tags" class="form-control" id="inputTopicTags" data-role="tagsinput" placeholder="Taq istifadə edin">                           
+                                {% if form.tags.errors %}
+                                    <input type="tags" name="tags" value="{{wrong_tags}}" class="form-control" id="inputTopicTags" data-role="tagsinput" placeholder="Taq istifadə edin">                           
+
+                                    {% for eachError in form.tags.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                                        {{eachError}}. Daha ətraflı məlumat üçün <a href="{% url 'student-rules' %}" class="alert-link">bura</a> clickləyin.
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+
+                                    {% endfor %}
+                                
+                                {% else %}
+                                    <input type="tags" name="tags" class="form-control is-invalid" id="inputTopicTags" data-role="tagsinput" placeholder="Taq istifadə edin">                           
+
+                                {% endif %}
+
                             </div>
-                            {{ form.tags.errors }}
-
-
 
                         </div>
                     </div>
@@ -223,10 +237,7 @@
 {% endblock content %}
 
 {% block script %}
-<!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
-<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> -->
+
 <script src="{% static 'js/tagsinput.js' %}"></script>
 
 {% endblock script %} 

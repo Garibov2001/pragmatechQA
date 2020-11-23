@@ -25,15 +25,19 @@ def rules(request):
 
 def post_create(request):
     form = QuestionForm(request.POST or None)
+    wrong_tags = ''
     if request.method == "POST":
         if form.is_valid():
             # print(form.cleaned_data['tags'])
-            # print(request.POST['tags'])
             # form.save()
             # print(Question.objects.last().tags.all())
             return redirect('student-home')
+        else:
+            wrong_tags = request.POST['tags']
+
     context={
         'form':form,
+        'wrong_tags':wrong_tags
     }
     return render(request, 'main_page/post_create.html', context)
 
