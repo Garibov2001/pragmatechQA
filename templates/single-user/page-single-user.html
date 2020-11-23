@@ -7,14 +7,12 @@
             <div class="tt-user-header">
                 <div class="tt-col-avatar">
                     <div class="tt-icon">
-                       <svg class="tt-icon">
-                          <use xlink:href="#icon-ava-d"></use>
-                        </svg>
+                       <img class="tt-icon" src="/{{ student.picture }}" />
                     </div>
                 </div>
                 <div class="tt-col-title">
                     <div class="tt-title">
-                        <a href="#">Dylan89</a>
+                        <a href="#">{{student.user.username}}</a>
                     </div>
                     <ul class="tt-list-badge">
                         <li><a href="#"><span class="tt-color14 tt-badge">LVL : 26</span></a></li>
@@ -114,25 +112,27 @@
                             <div class="tt-col-value hide-mobile">Kommentlər</div>
                             <div class="tt-col-value">Tarix</div>
                         </div>
+                        {% for question in questions %}
                         <div class="tt-item">
                             <div class="tt-col-avatar">
-                                <svg class="tt-icon">
-                                  <use xlink:href="#icon-ava-d"></use>
-                                </svg>
+                                <img class="tt-icon" src="/{{ student.picture }}" />
                             </div>
                             <div class="tt-col-description">
                                <h6 class="tt-title"><a href="#">
-                                    <svg class="tt-icon">
-                                      <use xlink:href="#icon-pinned"></use>
-                                    </svg>
-                                    Halloween Costume Contest 2018
+                                    {{ question.title }}
                                 </a></h6>
                             </div>
-                            <div class="tt-col-category"><span class="tt-color01 tt-badge">politics</span></div>
-                            <div class="tt-col-value hide-mobile">985</div>
-                            <div class="tt-col-value tt-color-select  hide-mobile">502</div>
-                            <div class="tt-col-value hide-mobile">1h</div>
+                            <div class="tt-col-category">
+                                {% for tag in question.tags.all %} 
+                                    <span class="tt-color01 tt-badge">{{ tag }}</span>
+                                {% endfor %} 
+                            </div>
+                            <div class="tt-col-value hide-mobile">{{ question.get_score }}</div>
+                            <div class="tt-col-value tt-color-select  hide-mobile">{{ question.get_comment_count }}</div>
+                            <div class="tt-col-value hide-mobile">{{ question.updated|timesince|date:"G" }}</div>
                         </div>
+                        
+                        {% endfor %}
                     </div>
                 </div>
                 <!-- Kommentlər -->
