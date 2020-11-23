@@ -24,4 +24,3 @@ class QuestionForm(forms.ModelForm):
             for eachTag in data:
                 if(not IsCorrectTag(eachTag)):
                     raise ValidationError("Daxil etdiyiniz tag standartlara uyğun deyil")
-        print(data)
