@@ -27,8 +27,8 @@ def post_create(request):
     form = QuestionForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
-            print('Hello Babyyy')
-            print(form.cleaned_data['tags'])
+            # print(form.cleaned_data['tags'])
+            # print(request.POST['tags'])
             # form.save()
             # print(Question.objects.last().tags.all())
             return redirect('student-home')

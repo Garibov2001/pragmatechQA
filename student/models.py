@@ -44,7 +44,7 @@ class Student(models.Model):
 
 
 class Actions(models.Model):
-    student = models.ForeignKey(Student, related_name='actions', on_delete = models.PROTECT) 
+    student = models.ForeignKey(Student, related_name='actions', on_delete = models.CASCADE) 
     question = models.CharField(max_length=255) #Burada foreign key olacaq 
     reply_date = models.DateTimeField(default = timezone.now)
     action_type = models.BooleanField()  # False - 'Downvote', True - 'Upvote',  

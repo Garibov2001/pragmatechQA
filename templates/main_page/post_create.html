@@ -93,13 +93,16 @@
                     <div class="form-group">
                         <textarea name="content" class="form-control" rows="5" placeholder="Mövzunu daxil edin" spellcheck="false"></textarea>
                     </div>
-                    <div class="row">
-                        
+                    <div class="row">                       
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="inputTopicTags">Taqlar</label>
-                                <input type="tags" name="tags" class="form-control" id="inputTopicTags" data-role="tagsinput" placeholder="Taq istifadə edin">
+                                <input type="tags" name="tags" class="form-control" id="inputTopicTags" data-role="tagsinput" placeholder="Taq istifadə edin">                           
                             </div>
+                            {{ form.tags.errors }}
+
+
+
                         </div>
                     </div>
                 </div>
