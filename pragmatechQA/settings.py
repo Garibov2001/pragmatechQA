@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
     # Custom Applications
     'student.apps.StudentConfig',
-
+    'crispy_forms',
     'taggit',
 ]
 
@@ -124,6 +124,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),

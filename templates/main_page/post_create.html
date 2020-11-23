@@ -1,4 +1,8 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} 
+{% load static %} 
+{% load crispy_forms_tags %} 
+
+{% block content %}
 
 <main id="tt-pageContent">
     <div class="container">
@@ -8,14 +12,8 @@
             </h1>
             <form class="form-default form-create-topic" method="post" action="">
                 {% csrf_token %}
-                <div class="form-group">
-                    <label for="inputTopicTitle">Mövzu Başlığı</label>
-                    <div class="tt-value-wrapper">
-                        <input type="text" name="title" class="form-control" id="inputTopicTitle" placeholder="Mövzunuza Başlıq Daxil Edin">
-                        <span class="tt-value-input">99</span>
-                    </div>
-                    <div class="tt-note">Mövzu Baslığını mümkün qədər qısa və aydın izah edin</div>
-                </div>
+
+                {{ form.title | as_crispy_field }}
                 
                 <div class="pt-editor">
                     <h6 class="pt-title">Mövzu</h6>
@@ -104,12 +102,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-auto ml-md-auto">
-                            <button class="btn btn-secondary btn-width-lg" type="submit" value="submit">Post yaradın</button>
-                        </div>
-                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-auto ml-md-auto">
+                        <input type="submit" class="btn btn-secondary btn-width-lg" value="Post yaradın">
+                    </div>
+                </div>    
             </form>
         </div>
         
@@ -222,9 +220,10 @@
 {% endblock content %}
 
 {% block script %}
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script> -->
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script> -->
 <script src="{% static 'js/tagsinput.js' %}"></script>
-{% endblock script %}
+
+{% endblock script %} 
