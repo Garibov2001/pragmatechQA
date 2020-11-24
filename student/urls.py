@@ -9,4 +9,5 @@ urlpatterns = [
     path('rules/', views.rules, name='student-rules'),
     path('create-topic/', views.page_create_topic, name='student_page_create_topic'),
     path('user/<int:id>', views.user_details, name='user_details'),
+    path('faq', views.faq, name='faq'),
 ]

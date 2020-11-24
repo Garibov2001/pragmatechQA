@@ -41,6 +41,13 @@ class Student(models.Model):
         """Unicode representation of Student."""
         return self.user.first_name + " " + self.user.last_name
 
+    def get_tags(self):
+        ans = dict()
+        for question in self.question_set.all():
+            for tag in question.tags.all():
+                ans[tag] = ans.setdefault(tag, 0) + 1
+        return ans
+
 
 class Setting(models.Model):
     """Model definition for Setting."""
@@ -103,6 +110,8 @@ class Question(models.Model):
 
     def get_comment_count(self):
         return len(self.comment_set.all())
+
+    
 
 
 class Comment(models.Model):
