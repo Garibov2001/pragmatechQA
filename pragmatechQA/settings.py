@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
 
     # Custom Applications
     'student.apps.StudentConfig',
     'crispy_forms',
     'taggit',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +132,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+
+CKEDITOR_JQUERY_URL = os.path.join(STATIC_URL, 'js/jquery.js')
