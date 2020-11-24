@@ -1,6 +1,7 @@
 from django import forms
 from student.models import Question
 from django.core.exceptions import ValidationError
+from ckeditor.fields import RichTextFormField
 import re
 
 
@@ -15,6 +16,11 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['title', 'content', 'tags']
+
+        widgets = {
+            'content' : RichTextFormField()
+        }
+
 
     def clean_tags(self):
         data = self.cleaned_data['tags']
