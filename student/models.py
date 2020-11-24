@@ -33,7 +33,7 @@ class Student(models.Model):
 
     def __str__(self):
         """Unicode representation of Student."""
-        return self.name + " " + self.surname
+        return self.first_name + " " + self.last_name
 
 
 class Setting(models.Model):

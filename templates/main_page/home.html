@@ -17,6 +17,8 @@
             <div class="tt-topic-alert tt-alert-default" role="alert">
             <a href="#" target="_blank">4 new posts</a> are added recently, click here to load them.
             </div>
+
+            {% for question in questions %}
             <div class="tt-item">
                 <div class="tt-col-avatar">
                     <div class="tt-col-avatar">
@@ -25,7 +27,7 @@
                 </div>
                 <div class="tt-col-description">
                     <h6 class="tt-title"><a href="../single-user/page-single-topic.html">
-                        Halloween Costume Contest 2018
+                        {{ question.title }}
                     </a></h6>
                     <div class="row align-items-center no-gutters">
                         <div class="col-11">
@@ -40,116 +42,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="tt-col-category"><span class="tt-color01 tt-badge">politics</span></div>
+                <div class="tt-col-category"><span class="tt-color01 tt-badge">{{ question.category }}</span></div>
                 <div class="tt-col-value hide-mobile">985</div>
                 <div class="tt-col-value tt-color-select hide-mobile">502</div>
                 <div class="tt-col-value hide-mobile">15.1k</div>
                 <div class="tt-col-value hide-mobile">1h</div>
             </div>
-            <div class="tt-item">
-                <div class="tt-col-avatar">
-                    <img src="{% static 'images/profile_images/default.jpg' %}" alt="" style="width:40px; height:40px;">
-                </div>
-                <div class="tt-col-description">
-                    <h6 class="tt-title"><a href="../single-user/page-single-topic.html">
-                        We’re removing Envato Credits from Market
-                    </a></h6>
-                    <div class="row align-items-center no-gutters  hide-desktope">
-                        <div class="col-11">
-                        <ul class="tt-list-badge">
-                            <li class="show-mobile"><a href="#"><span class="tt-color02 tt-badge">video</span></a></li>
-                        </ul>
-                        </div>
-                        <div class="col-1 ml-auto show-mobile">
-                            <div class="tt-value">2h</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tt-col-category"><span class="tt-color02 tt-badge">video</span></div>
-                <div class="tt-col-value hide-mobile">584</div>
-                <div class="tt-col-value tt-color-select  hide-mobile">35</div>
-                <div class="tt-col-value hide-mobile">1.3k</div>
-                <div class="tt-col-value hide-mobile">2h</div>
-            </div>
-            <div class="tt-item">
-                <div class="tt-col-avatar">
-                    <img src="{% static 'images/profile_images/default.jpg' %}" alt="" style="width:40px; height:40px;">
-                </div>
-                <div class="tt-col-description">
-                    <h6 class="tt-title"><a href="../single-user/page-single-topic.html">
-                        Web Hosting Packages for ThemeForest WordPress
-                    </a></h6>
-                    <div class="row align-items-center no-gutters">
-                        <div class="col-11">
-                            <ul class="tt-list-badge">
-                                <li class="show-mobile"><a href="#"><span class="tt-color03 tt-badge">exchange</span></a></li>
-                                <li><a href="#"><span class="tt-badge">themeforest</span></a></li>
-                                <li><a href="#"><span class="tt-badge">elements</span></a></li>
-                            </ul>
-                        </div>
-                        <div class="col-1 ml-auto show-mobile">
-                            <div class="tt-value">2h</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tt-col-category"><span class="tt-color03 tt-badge">exchange</span></div>
-                <div class="tt-col-value  hide-mobile">401</div>
-                <div class="tt-col-value tt-color-select  hide-mobile">975</div>
-                <div class="tt-col-value  hide-mobile">12.6k</div>
-                <div class="tt-col-value hide-mobile">2h</div>
-            </div>
-            <div class="tt-item">
-                <div class="tt-col-avatar">
-                    <img src="{% static 'images/profile_images/default.jpg' %}" alt="" style="width:40px; height:40px;">
-                </div>
-                <div class="tt-col-description">
-                    <h6 class="tt-title"><a href="../single-user/page-single-topic.html">
-                        Review Queue Changes for VideoHive & PhotoDune
-                    </a></h6>
-                    <div class="row align-items-center no-gutters">
-                        <div class="col-11">
-                            <ul class="tt-list-badge">
-                                <li class="show-mobile"><a href="#"><span class="tt-color04 tt-badge">pets</span></a></li>
-                                <li><a href="#"><span class="tt-badge">videohive</span></a></li>
-                                <li><a href="#"><span class="tt-badge">photodune</span></a></li>
-                            </ul>
-                        </div>
-                        <div class="col-1 ml-auto show-mobile">
-                            <div class="tt-value">1d</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tt-col-category"><span class="tt-color04 tt-badge">pets</span></div>
-                <div class="tt-col-value  hide-mobile">308</div>
-                <div class="tt-col-value tt-color-select  hide-mobile">660</div>
-                <div class="tt-col-value  hide-mobile">8.3k</div>
-                <div class="tt-col-value hide-mobile">1d</div>
-            </div>
-            <div class="tt-item">
-                <div class="tt-col-avatar">
-                    <img src="{% static 'images/profile_images/default.jpg' %}" alt="" style="width:40px; height:40px;">
-                </div>
-                <div class="tt-col-description">
-                    <h6 class="tt-title"><a href="../single-user/page-single-topic.html">
-                        Does Envato act against the authors of Envato markets?
-                    </a></h6>
-                    <div class="row align-items-center no-gutters  hide-desktope">
-                        <div class="col-11">
-                            <ul class="tt-list-badge">
-                                <li class="show-mobile"><a href="#"><span class="tt-color05 tt-badge">music</span></a></li>
-                            </ul>
-                        </div>
-                        <div class="col-1 ml-auto show-mobile">
-                            <div class="tt-value">1d</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tt-col-category"><span class="tt-color05 tt-badge">music</span></div>
-                <div class="tt-col-value hide-mobile">358</div>
-                <div class="tt-col-value tt-color-select hide-mobile">68</div>
-                <div class="tt-col-value hide-mobile">8.3k</div>
-                <div class="tt-col-value hide-mobile">1d</div>
-            </div>
+            {% endfor %}
+            
             <div class="tt-item tt-item-popup">
                 <div class="tt-col-avatar">
                     <svg class="tt-icon">
@@ -178,6 +78,23 @@
                 </button>
             </div>
         </div>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if questions.has_previous %}
+                    <a href="?page={{ questions.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ questions.number }} of {{ questions.paginator.num_pages }}.
+                </span>
+        
+                {% if questions.has_next %}
+                    <a href="?page={{ questions.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+
     </div>
 </main>
 
