@@ -42,11 +42,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="tt-col-category"><span class="tt-color01 tt-badge">{{ question.category }}</span></div>
-                <div class="tt-col-value hide-mobile">985</div>
-                <div class="tt-col-value tt-color-select hide-mobile">502</div>
-                <div class="tt-col-value hide-mobile">15.1k</div>
-                <div class="tt-col-value hide-mobile">1h</div>
+                <div class="tt-col-category">
+                    {% for tag in question.tags.all %}
+                        <span class="tt-color01 tt-badge">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                <div class="tt-col-value hide-mobile">{{ question.get_score }}</div>
+                <div class="tt-col-value tt-color-select hide-mobile">{{ question.get_comment_count }}</div>
+                <!-- <div class="tt-col-value hide-mobile">15.1k</div> -->
+                <div class="tt-col-value hide-mobile">{{ question.updated|date:"d M,y" }}</div>
             </div>
             {% endfor %}
             
