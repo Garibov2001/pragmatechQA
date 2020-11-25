@@ -1,69 +1,168 @@
 from django.db import models
 from django.utils import timezone
-
-
-class Group(models.Model):
-    name = models.CharField(max_length=255)
+from django.contrib.auth.models import User
+from taggit.managers import TaggableManager
 
 # Create your models here.
 
-class Setting(models.Model):
-    communityRules = models.CharField(max_length = 255, name="cRules")
-
-
-class Faq(models.Model):
-    title = models.CharField(max_length = 120, verbose_name = "Başlıq")
-    content = models.CharField(max_length = 200, verbose_name = "Məzmun")
-
-class category(models.Model):
-    """Model definition for category."""
-
-    name = models.CharField(verbose_name=("Ad"), max_length=50)
-
-    description = models.TextField(verbose_name=("Açıqlama"))
+class StudyGroup(models.Model):
+    """Model definition for StudyGroup."""
+    name = models.CharField(verbose_name=("Ad"), max_length=255)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        """Meta definition for category."""
+        """Meta definition for StudyGroup."""
 
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
+        verbose_name = 'StudyGroup'
+        verbose_name_plural = 'StudyGroups'
 
     def __str__(self):
-        """Unicode representation of category."""
+        """Unicode representation of StudyGroup."""
         return self.name
 
 
-class question(models.Model):
-    """Model definition for question."""
+class Student(models.Model):
+    """Model definition for Student."""
 
-    title = models.CharField(verbose_name=("Başlıq"), max_length=50)
-    category = models.ManyToManyField("category", verbose_name=("Kategoriya"))
-    content = models.TextField(verbose_name=("Kontent"))
+    user = models.OneToOneField(User, on_delete=models.CASCADE)    
+    picture = models.ImageField(verbose_name=("Şəkil"), upload_to='media/profile_images')
+    study_group = models.ForeignKey(StudyGroup ,verbose_name=("Qrup"), on_delete = models.PROTECT)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        """Meta definition for Student."""
+
+        verbose_name = 'Student'
+        verbose_name_plural = 'Students'
+
+    def __str__(self):
+        """Unicode representation of Student."""
+        return self.user.first_name + " " + self.user.last_name
+
+    def get_tags(self):
+        ans = dict()
+        for question in self.question_set.all():
+            for tag in question.tags.all():
+                ans[tag] = ans.setdefault(tag, 0) + 1
+        return ans
+
+
+class Setting(models.Model):
+    """Model definition for Setting."""
+
+    communityRules = models.TextField(verbose_name="Qaydalar")
+
+    class Meta:
+        """Meta definition for Setting."""
+
+        verbose_name = 'Setting'
+        verbose_name_plural = 'Settings'
+
+    def __str__(self):
+        """Unicode representation of Setting."""
+        return self.communityRules
+
+
+class FAQ(models.Model):
+    """Model definition for FAQ."""
+
+    title = models.CharField(verbose_name = "Başlıq", max_length = 255)
+    content = models.TextField(verbose_name = "Məzmun")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        """Meta definition for FAQ."""
+
+        verbose_name = 'FAQ'
+        verbose_name_plural = 'FAQ'
+
+    def __str__(self):
+        """Unicode representation of FAQ."""
+        return self.title
+
+
+class Question(models.Model):
+    """Model definition for Question."""
+
+    title = models.CharField(verbose_name="Başlıq", max_length=50)
+    tags = TaggableManager()
+    content = models.TextField(verbose_name="Məzmun")
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    view = models.IntegerField(verbose_name="Baxış sayı")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
 
     class Meta:
-        """Meta definition for question."""
+        """Meta definition for Question."""
 
-        verbose_name = 'question'
-        verbose_name_plural = 'questions'
+        verbose_name = 'Question'
+        verbose_name_plural = 'Questions'
 
     def __str__(self):
-        """Unicode representation of question."""
+        """Unicode representation of Question."""
         return self.title
 
-class Student(models.Model):
-    name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    username = models.CharField(max_length=255)
-    avatar_path = models.CharField(max_length=255)
-    group = models.ForeignKey(Group ,related_name='students', on_delete = models.PROTECT)
+    def get_downvote(self):
+        return len(self.action_set.filter(action_type = 0).all())
+
+    def get_upvote(self):
+        return len(self.action_set.filter(action_type = 1).all())
+
+    def get_comment_count(self):
+        return len(self.comment_set.all())
+
+    
 
 
-class Actions(models.Model):
-    student = models.ForeignKey(Student, related_name='actions', on_delete = models.PROTECT) 
-    question = models.CharField(max_length=255) #Burada foreign key olacaq 
-    reply_date = models.DateTimeField(default = timezone.now)
-    action_type = models.BooleanField()  # False - 'Downvote', True - 'Upvote',  
+class Comment(models.Model):
+    """Model definition for Comment."""
+
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    comment = models.TextField(verbose_name=("Məzmun"), null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        """Meta definition for Comment."""
+
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+
+    def __str__(self):
+        """Unicode representation of Comment."""
+        return self.comment
 
 
+class Action(models.Model):
+    """Model definition for Action."""
+    action_choices = (
+        (0, 'Downvote'),
+        (1, 'Upvote'),
+    )
+    type_choices = (
+        (0, 'Sual'),
+        (1, 'Komment'),
+    )
+
+    student = models.ForeignKey(Student, verbose_name="Tələbə", on_delete = models.PROTECT) 
+    question = models.ForeignKey(Question, verbose_name="Sual", on_delete=models.CASCADE, blank=True, null=True)
+    comment = models.ForeignKey(Comment, verbose_name="Komment", on_delete=models.CASCADE, blank=True, null=True)
+    type = models.BooleanField(verbose_name=("Tip"),choices=type_choices)
+    action_type = models.BooleanField(choices=action_choices)  # False - 'Downvote', True - 'Upvote',
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        """Meta definition for Action."""
+
+        verbose_name = 'Action'
+        verbose_name_plural = 'Actions'
+
+    def __str__(self):
+        """Unicode representation of Action."""
+        return self.get_action_type_display()

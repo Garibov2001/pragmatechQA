@@ -1,8 +1,25 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .models import *
 
 
 def home(request):
+
+    question_list = Question.objects.all()
+
+    paginator = Paginator(question_list, 5)
+    page = request.GET.get('page')
+    try:
+        questions = paginator.page(page)
+    except PageNotAnInteger:
+        
+        questions = paginator.page(1)
+    except EmptyPage:
+        
+        questions = paginator.page(paginator.num_pages)
+    
     context={
+        'questions':questions,
     }
     return render(request, 'main_page/home.html', context)
 
@@ -27,5 +44,16 @@ def page_create_topic(request):
     }
     return render(request, 'main_page/page-create-topic.html', context)
 
-def user_details(request):
-    return render(request, 'single-user/page-single-user.html')
+def faq(request):
+    context={
+    }
+    return render(request, 'main_page/page-tabs.html', context)
+
+def user_details(request, id):
+    temp_student = User.objects.get(id = id).student
+    context={
+        'student' : temp_student,
+        'questions' : temp_student.question_set.all(),
+        'comments' : temp_student.comment_set.all(),
+    }
+    return render(request, 'single-user/page-single-user.html', context)
