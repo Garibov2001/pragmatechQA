@@ -1,25 +1,11 @@
 from django.shortcuts import render
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import *
 
 
 def home(request):
-
-    question_list = Question.objects.all()
-
-    paginator = Paginator(question_list, 5)
-    page = request.GET.get('page')
-    try:
-        questions = paginator.page(page)
-    except PageNotAnInteger:
-        
-        questions = paginator.page(1)
-    except EmptyPage:
-        
-        questions = paginator.page(paginator.num_pages)
     
     context={
-        'questions':questions,
+        'questions':questions.objects.all(),
     }
     return render(request, 'main_page/home.html', context)
 

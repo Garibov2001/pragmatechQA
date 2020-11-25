@@ -19,6 +19,7 @@
             </div>
 
             {% for question in questions %}
+            <div {% if forloop.counter > 6 %} class="d-none" {% endif %} >
             <div class="tt-item">
                 <div class="tt-col-avatar">
                     <div class="tt-col-avatar">
@@ -52,7 +53,10 @@
                 <!-- <div class="tt-col-value hide-mobile">15.1k</div> -->
                 <div class="tt-col-value hide-mobile">{{ question.updated|date:"d M,y" }}</div>
             </div>
+
             {% endfor %}
+            <button type="button" name="more_comments" class="btn btn-primary" > more comments </button>
+           
             
             <div class="tt-item tt-item-popup">
                 <div class="tt-col-avatar">
@@ -82,24 +86,13 @@
                 </button>
             </div>
         </div>
-
-        <div class="pagination">
-            <span class="step-links">
-                {% if questions.has_previous %}
-                    <a href="?page={{ questions.previous_page_number }}">previous</a>
-                {% endif %}
-        
-                <span class="current">
-                    Page {{ questions.number }} of {{ questions.paginator.num_pages }}.
-                </span>
-        
-                {% if questions.has_next %}
-                    <a href="?page={{ questions.next_page_number }}">next</a>
-                {% endif %}
-            </span>
-        </div>
-
     </div>
 </main>
 
 {% endblock content %}
+<script>
+    $("[name='more_comments']".click(function(){
+    var hidden_comments = $(this).parent().find('.d-none'); // selects all hidden comments
+    $(hidden_comments).each(function(){$(this).removeClass('d-none')}); // removes 'd-none' class
+    }))
+</script>
