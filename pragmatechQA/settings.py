@@ -146,7 +146,8 @@ CKEDITOR_CONFIGS = {
         [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-'],
         [ 'Source'],
         [ 'Undo', 'Redo' ],
-    ],
+        ['CodeSnippet'],
+    ], 'extraPlugins': 'codesnippet',
     }
 }
 
