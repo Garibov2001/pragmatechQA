@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from taggit.managers import TaggableManager
-from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Group(models.Model):
     name = models.CharField(max_length=255)
@@ -21,7 +21,7 @@ class Question(models.Model):
 
     title = models.CharField(verbose_name=("Başlıq"), max_length=50)
     tags = TaggableManager()
-    content = RichTextField(verbose_name=("Kontent"))
+    content = RichTextUploadingField(verbose_name=("Kontent"))
 
 
     class Meta:

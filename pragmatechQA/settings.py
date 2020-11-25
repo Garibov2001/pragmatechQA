@@ -39,12 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-
     # Custom Applications
     'student.apps.StudentConfig',
     'crispy_forms',
     'taggit',
     'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -135,19 +135,22 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 
-
-CKEDITOR_UPLOAD_PATH = "filer_public/"
-
 CKEDITOR_CONFIGS = {
     "default": {
         "removePlugins": "stylesheetparser",
         'allowedContent': True,
+        'heigth' : 300,
+        'width' : '100%',
         'toolbar_Full': [
-        ['Format', 'Bold', 'Italic', 'Strike' ],
-        ['Link', 'Image', 'SpecialChar'],
+        ['Format', 'Bold', 'Italic', 'Strike', '-' , 'Link', 'Image', 'SpecialChar' ],
         [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-'],
         [ 'Source'],
         [ 'Undo', 'Redo' ],
     ],
     }
 }
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

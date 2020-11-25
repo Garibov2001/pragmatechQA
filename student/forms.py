@@ -17,11 +17,6 @@ class QuestionForm(forms.ModelForm):
         model = Question
         fields = ['title', 'content', 'tags']
 
-        widgets = {
-            'content' : RichTextFormField()
-        }
-
-
     def clean_tags(self):
         data = self.cleaned_data['tags']
         if (len(data)>5):
@@ -30,3 +25,4 @@ class QuestionForm(forms.ModelForm):
             for eachTag in data:
                 if(not IsCorrectTag(eachTag)):
                     raise ValidationError("Daxil etdiyiniz tag standartlara uyğun deyil")
+        return data

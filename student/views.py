@@ -28,9 +28,9 @@ def post_create(request):
     wrong_tags = ''
     if request.method == "POST":
         if form.is_valid():
-            # print(form.cleaned_data['tags'])
-            # form.save()
-            # print(Question.objects.last().tags.all())
+            # post_item = form.save(commit=False)
+            # post_item.save()
+            form.save()
             return redirect('student-home')
         else:
             wrong_tags = request.POST['tags']
