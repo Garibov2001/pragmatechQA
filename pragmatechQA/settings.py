@@ -155,12 +155,20 @@ CKEDITOR_CONFIGS = {
         [ 'CodeSnippet'],
         [ 'Undo', 'Redo' ],
     ], 
+    'removeDialogTabs': ';'.join([
+            'image:advanced',
+            'image:Link',
+            'link:upload',
+            'table:advanced',
+            'tableProperties:advanced',
+            
+        ]),
+    'filebrowserBrowseUrl': '',
     }
 }
 
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
-
 
 
