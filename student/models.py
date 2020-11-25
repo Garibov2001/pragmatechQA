@@ -91,6 +91,7 @@ class Question(models.Model):
     tags = TaggableManager()
     content = models.TextField(verbose_name="Məzmun")
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    view = models.IntegerField(verbose_name="Baxış sayı")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -105,8 +106,11 @@ class Question(models.Model):
         """Unicode representation of Question."""
         return self.title
 
-    def get_score(self):
-        return len(self.action_set.filter(action_type = 1).all()) - len(self.action_set.filter(action_type = 0).all())
+    def get_downvote(self):
+        return len(self.action_set.filter(action_type = 0).all())
+
+    def get_upvote(self):
+        return len(self.action_set.filter(action_type = 1).all())
 
     def get_comment_count(self):
         return len(self.comment_set.all())
