@@ -1,7 +1,6 @@
 from django import forms
 from student.models import Question
 from django.core.exceptions import ValidationError
-from ckeditor.fields import RichTextFormField
 import re
 
 

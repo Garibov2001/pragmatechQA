@@ -41,7 +41,7 @@ def about(request):
 def rules(request):
     return render(request, 'main_page/rules.html')
 
-def post_create(request):
+def page_create_topic(request):
     form = QuestionForm(request.POST or None)
     wrong_tags = ''
     if request.method == "POST":

@@ -90,9 +90,9 @@ class Question(models.Model):
 
     title = models.CharField(verbose_name="Başlıq", max_length=50)
     tags = TaggableManager()
-    content = models.TextField(verbose_name="Məzmun")
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    view = models.IntegerField(verbose_name="Baxış sayı")
+    content = RichTextUploadingField(verbose_name="Məzmun")
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, default = lambda: Student.objects.get(id = 1)) # Bu Tes ucundur Productionda silinecek.
+    view = models.IntegerField(verbose_name="Baxış sayı", default = 0 )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
