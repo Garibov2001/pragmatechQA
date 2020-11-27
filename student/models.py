@@ -26,7 +26,7 @@ class Student(models.Model):
     """Model definition for Student."""
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)    
-    picture = models.ImageField(verbose_name=("Şəkil"), upload_to='media/profile_images')
+    picture = models.ImageField(verbose_name=("Şəkil"), upload_to='profile_images')
     study_group = models.ForeignKey(StudyGroup ,verbose_name=("Qrup"), on_delete = models.PROTECT)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

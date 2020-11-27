@@ -1,0 +1,26 @@
+{% load el_pagination_tags %}
+
+{% load tag_methods %}
+
+{% lazy_paginate 18 tags %}
+
+{% for tag in tags %}
+    
+    <div class="col-md-6 col-lg-4">
+        <div class="tt-item">
+            <div class="tt-item-header">
+                <ul class="tt-list-badge">
+                    <li><a href="#"><span class="tt-color01 tt-badge">{{tag.name}}</span></a></li>
+                </ul>
+                <h6 class="tt-title"><a href="#">Suallar - {% student_tags tag student.user.id %}</a></h6>
+            </div>
+            <div class="tt-item-layout">
+            <div class="innerwrapper">
+                {{tag.description}}
+            </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+{% show_more %}
