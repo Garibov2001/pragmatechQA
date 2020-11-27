@@ -1,6 +1,8 @@
+from django.shortcuts import render, redirect
+from student.models import *
+from student.forms import QuestionForm
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import *
 
 
 def home(request):
@@ -40,9 +42,22 @@ def rules(request):
     return render(request, 'main_page/rules.html')
 
 def page_create_topic(request):
+    form = QuestionForm(request.POST or None)
+    wrong_tags = ''
+    if request.method == "POST":
+        if form.is_valid():
+            # post_item = form.save(commit=False)
+            # post_item.save()
+            form.save()
+            return redirect('student-home')
+        else:
+            wrong_tags = request.POST['tags']
+
     context={
+        'form':form,
+        'wrong_tags':wrong_tags
     }
-    return render(request, 'main_page/page-create-topic.html', context)
+    return render(request, 'main_page/post_create.html', context)
 
 def faq(request):
     context={

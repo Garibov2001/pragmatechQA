@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
+from ckeditor_uploader.fields import RichTextUploadingField
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -89,9 +90,9 @@ class Question(models.Model):
 
     title = models.CharField(verbose_name="Başlıq", max_length=50)
     tags = TaggableManager()
-    content = models.TextField(verbose_name="Məzmun")
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    view = models.IntegerField(verbose_name="Baxış sayı")
+    content = RichTextUploadingField(verbose_name="Məzmun")
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, default = 1) # Bu Tes ucundur Productionda silinecek.
+    view = models.IntegerField(verbose_name="Baxış sayı", default = 0 )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -105,6 +106,7 @@ class Question(models.Model):
     def __str__(self):
         """Unicode representation of Question."""
         return self.title
+    
 
     def get_downvote(self):
         return len(self.action_set.filter(action_type = 0).all())
