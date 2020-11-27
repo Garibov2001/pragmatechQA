@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'el_pagination',
     # Custom Applications
     'student.apps.StudentConfig',
+    'crispy_forms',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -126,9 +129,47 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+CKEDITOR_CONFIGS = {
+    "default": {
+        "removePlugins": "stylesheetparser",
+        'allowedContent': True,
+        'extraPlugins': 'codesnippet',
+        'heigth' : 300,
+        'width' : '100%',
+        
+        'toolbar_Full': [
+        ['Format', 'Bold', 'Italic', 'Strike', '-' , 'Link', 'Image', 'SpecialChar' ],
+        [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-'],
+        [ 'CodeSnippet'],
+        [ 'Undo', 'Redo' ],
+    ], 
+    'removeDialogTabs': ';'.join([
+            'image:advanced',
+            'image:Link',
+            'link:upload',
+            'table:advanced',
+            'tableProperties:advanced',
+            
+        ]),
+    'filebrowserBrowseUrl': '',
+    }
+}
+
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+

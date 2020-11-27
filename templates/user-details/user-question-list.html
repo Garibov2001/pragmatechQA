@@ -19,9 +19,10 @@
                 <span class="tt-color01 tt-badge">{{ tag }}</span>
             {% endfor %} 
         </div>
-        <div class="tt-col-value hide-mobile">{{ question.get_upvote }}  {{ question.get_downvote }}</div>
-        <div class="tt-col-value tt-color-select  hide-mobile">{{ question.get_comment_count }}</div>
-        <div class="tt-col-value-large hide-mobile">{{ question.updated|date:"d M,y" }}</div>
+        <div class="tt-col-value hide-mobile text-center">{{ question.get_upvote }}</div>
+        <div class="tt-col-value hide-mobile text-center">{{ question.get_downvote }}</div>
+        <div class="tt-col-value tt-color-select hide-mobile text-center">{{ question.get_comment_count }}</div>
+        <div class="tt-col-value-large hide-mobile text-center">{{ question.updated|date:"d M,y" }}</div>
     </div>
 
 {% endfor %}
