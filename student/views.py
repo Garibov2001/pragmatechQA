@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from student.models import *
 from student.forms import QuestionForm
 from django.shortcuts import render
@@ -59,6 +59,14 @@ def page_create_topic(request):
     }
     return render(request, 'main_page/post_create.html', context)
 
+def question_detail(request, slug):
+    question = get_object_or_404(Question, slug=slug)
+    question.view +=1
+    question.save()
+    context={
+        'question': question,
+    }
+    return render(request, 'single-user/page-single-topic.html', context)
 def faq(request):
     context={
     }

@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
+from random import randrange
 from taggit.managers import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
@@ -31,7 +33,7 @@ class Student(models.Model):
     study_group = models.ForeignKey(StudyGroup ,verbose_name=("Qrup"), on_delete = models.PROTECT)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
+    
     class Meta:
         """Meta definition for Student."""
 
@@ -48,7 +50,8 @@ class Student(models.Model):
             for tag in question.tags.all():
                 ans[tag] = ans.setdefault(tag, 0) + 1
         return ans
-
+    
+    
 
 class Setting(models.Model):
     """Model definition for Setting."""
@@ -95,7 +98,7 @@ class Question(models.Model):
     view = models.IntegerField(verbose_name="Baxış sayı", default = 0 )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
+    slug = models.SlugField(unique=True, editable=False, max_length=130)
 
     class Meta:
         """Meta definition for Question."""
@@ -117,7 +120,19 @@ class Question(models.Model):
     def get_comment_count(self):
         return len(self.comment_set.all())
 
-    
+    def get_unique_slug(self):
+        slug = slugify(self.title.replace('ı', 'i').replace('ə', 'e').replace('ş', 's').replace('ç', 'c'))
+        ran = randrange(10000, 99999)
+        unique_slug = f'{slug}-{str(ran)}'
+        while Question.objects.filter(slug=unique_slug).exists():
+            unique_slug = f'{slug}-{str(ran)}'
+            ran = randrange(10000, 99999)
+        return unique_slug
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self.get_unique_slug()
+        return super(Question, self).save(*args, **kwargs)
 
 
 class Comment(models.Model):
