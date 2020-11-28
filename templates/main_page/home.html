@@ -20,7 +20,6 @@
             </div>
 
             {% for question in questions %}
-            <div {% if forloop.counter > 6 %} class="d-none" {% endif %} >
             <div class="tt-item">
                 <div class="tt-col-avatar">
                     <div class="tt-col-avatar">
@@ -52,7 +51,7 @@
                 <div class="tt-col-value hide-mobile">{{ question.get_upvote }}</div>
                 <div class="tt-col-value hide-mobile">{{ question.get_downvote }}</div>
                 <div class="tt-col-value tt-color-select hide-mobile">{{ question.get_comment_count }}</div>
- <!-- -->       <div class="tt-col-value hide-mobile">{{ question.view }}</div>
+                <div class="tt-col-value hide-mobile">{{ question.view }}</div>
                 <div class="tt-col-value hide-mobile">{{ question.updated|date:"d M,y" }}</div>
             </div>
 
@@ -90,3 +89,4 @@
 </main>
 
 
+{% endblock %}

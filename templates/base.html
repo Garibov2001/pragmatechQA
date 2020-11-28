@@ -9,6 +9,10 @@
     <meta name="description" content="Forum - PragmatechQA" />
     <meta name="author" content="Pragmatech Team" />
 
+
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/tagsinput.css' %}" rel="stylesheet" type="text/css">
+    
     <!-- Site icon in Tab -->
     <link rel="shortcut icon" href="{% static 'images/favicon/favicon.ico' %}" />
 
@@ -46,7 +50,9 @@
             <!-- toggle mobile menu -->
             <a class="toggle-mobile-menu" href="#">
               <svg class="tt-icon">
-                <use xlink:href="#icon-menu_icon"></use>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 73 63" id="icon-menu_icon">
+                  <path d="M68.5 9h-64a4.5 4.5 0 0 1 0-9h64a4.5 4.5 0 0 1 0 9zm0 27h-64a4.5 4.5 0 0 1 0-9h64c2.49 0 4.5 2.01 4.5 4.5S70.99 36 68.5 36zm0 27h-64a4.5 4.5 0 0 1 0-9h64c2.49 0 4.5 2.01 4.5 4.5S70.99 63 68.5 63z"></path>
+                </svg>
               </svg>
             </a>
             <!-- /toggle mobile menu -->
@@ -397,6 +403,8 @@
     </div>
 
     <!-- Application JS -->
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/svg4everybody/2.1.9/svg4everybody.min.js" integrity="sha512-7XdqOa4bqU/hqbUuS8epr0ECSj9laLWnualyqow2TQ3RJ+TUoac0yKNjEtgg3gHGEbM+Jbwgo6K/+Y/0mJHOfA==" crossorigin="anonymous"></script>
     <script script>
