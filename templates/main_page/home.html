@@ -7,12 +7,13 @@
     <div class="container">
         <div class="tt-topic-list">
             <div class="tt-list-header">
-                <div class="tt-col-topic">Topic</div>
-                <div class="tt-col-category">Category</div>
-                <div class="tt-col-value hide-mobile">Likes</div>
-                <div class="tt-col-value hide-mobile">Replies</div>
-                <div class="tt-col-value hide-mobile">Views</div>
-                <div class="tt-col-value">Activity</div>
+                <div class="tt-col-topic">Mövzu</div>
+                <div class="tt-col-category">Taqlar</div>
+                <div class="tt-col-value hide-mobile">Upvote</div>
+                <div class="tt-col-value hide-mobile">Downvote</div>
+                <div class="tt-col-value hide-mobile">Cavablar</div>
+                <div class="tt-col-value hide-mobile">Görünmə</div>
+                <div class="tt-col-value">Tarix</div>
             </div>
             <div class="tt-topic-alert tt-alert-default" role="alert">
             <a href="#" target="_blank">4 new posts</a> are added recently, click here to load them.
@@ -23,7 +24,7 @@
             <div class="tt-item">
                 <div class="tt-col-avatar">
                     <div class="tt-col-avatar">
-                        <img src="{% static 'images/profile_images/default.jpg' %}" alt="" style="width:40px; height:40px;">
+                        <img src="/media/{{ question.student.picture }}" alt="" style="width:40px; height:40px;">
                     </div>
                 </div>
                 <div class="tt-col-description">
@@ -48,15 +49,14 @@
                         <span class="tt-color01 tt-badge">{{ tag }}</span>
                     {% endfor %}
                 </div>
-                <div class="tt-col-value hide-mobile">{{ question.get_score }}</div>
+                <div class="tt-col-value hide-mobile">{{ question.get_upvote }}</div>
+                <div class="tt-col-value hide-mobile">{{ question.get_downvote }}</div>
                 <div class="tt-col-value tt-color-select hide-mobile">{{ question.get_comment_count }}</div>
-                <!-- <div class="tt-col-value hide-mobile">15.1k</div> -->
+ <!-- -->       <div class="tt-col-value hide-mobile">{{ question.view }}</div>
                 <div class="tt-col-value hide-mobile">{{ question.updated|date:"d M,y" }}</div>
             </div>
 
             {% endfor %}
-            <button type="button" name="more_comments" class="btn btn-primary" > more comments </button>
-           
             
             <div class="tt-item tt-item-popup">
                 <div class="tt-col-avatar">
@@ -89,10 +89,4 @@
     </div>
 </main>
 
-{% endblock content %}
-<script>
-    $("[name='more_comments']".click(function(){
-    var hidden_comments = $(this).parent().find('.d-none'); // selects all hidden comments
-    $(hidden_comments).each(function(){$(this).removeClass('d-none')}); // removes 'd-none' class
-    }))
-</script>
+
