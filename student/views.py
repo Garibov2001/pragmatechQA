@@ -6,12 +6,18 @@ from .models import *
 from taggit.models import Tag
 
 
-def home(request):
-    
+def home(request, extra_context=None):
+    template='main_page/home.html'
+    page_template='main_page/question_list.html'
     context={
         'questions':Question.objects.all(),
+        'page_template':page_template,
     }
-    return render(request, 'main_page/home.html', context)
+
+    if request.is_ajax():
+        template = page_template
+    return render(request, template, context)
+
 
 def tags(request):
     context={

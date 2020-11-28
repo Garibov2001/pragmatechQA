@@ -1,0 +1,42 @@
+{% load el_pagination_tags %}
+
+{% paginate questions %}
+
+{% for question in questions %}
+<div class="tt-item">
+    <div class="tt-col-avatar">
+        <div class="tt-col-avatar">
+            <img src="/media/{{ question.student.picture }}" alt="" style="width:40px; height:40px;">
+        </div>
+    </div>
+    <div class="tt-col-description">
+        <h6 class="tt-title"><a href="../single-user/page-single-topic.html">
+            {{ question.title }}
+        </a></h6>
+        <div class="row align-items-center no-gutters">
+            <div class="col-11">
+                <ul class="tt-list-badge">
+                    <li class="show-mobile"><a href="#"><span class="tt-color01 tt-badge">politics</span></a></li>
+                    <li><a href="#"><span class="tt-badge">contests</span></a></li>
+                    <li><a href="#"><span class="tt-badge">authors</span></a></li>
+                </ul>
+            </div>
+            <div class="col-1 ml-auto show-mobile">
+                <div class="tt-value">1h</div>
+            </div>
+        </div>
+    </div>
+    <div class="tt-col-category">
+        {% for tag in question.tags.all %}
+            <span class="tt-color01 tt-badge">{{ tag }}</span>
+        {% endfor %}
+    </div>
+    <div class="tt-col-value hide-mobile">{{ question.get_upvote }}</div>
+    <div class="tt-col-value hide-mobile">{{ question.get_downvote }}</div>
+    <div class="tt-col-value tt-color-select hide-mobile">{{ question.get_comment_count }}</div>
+    <div class="tt-col-value hide-mobile">{{ question.view }}</div>
+    <div class="tt-col-value hide-mobile">{{ question.updated|date:"d M,y" }}</div>
+</div>
+
+{% endfor %}
+{% show_more %}
