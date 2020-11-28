@@ -28,9 +28,15 @@ def home(request):
     return render(request, 'main_page/home.html', context)
 
 def tags(request):
+    template = 'categories/tags.html' 
+    page_template = 'categories/tag-list.html'
     context={
+        'tags' : Tag.objects.all() if Tag.objects.all() else -1,
+        'page_template': page_template,
     }
-    return render(request, 'categories/tags.html', context)
+    if request.is_ajax():
+        template = page_template
+    return render(request, template, context)
 
 def tag_info(request):
     context={
