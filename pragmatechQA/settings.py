@@ -41,10 +41,10 @@ INSTALLED_APPS = [
     # Module Applications
     'django_cleanup',
     'taggit',
-    # Custom Applications
-    'student.apps.StudentConfig',
     'crispy_forms',
     'ckeditor',
+    # Custom Applications
+    'student.apps.StudentConfig',
 ]
 
 MIDDLEWARE = [

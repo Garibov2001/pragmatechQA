@@ -117,8 +117,25 @@ class Question(models.Model):
     def get_comment_count(self):
         return len(self.comment_set.all())
 
-    
 
+class QuestionImage(models.Model):
+    """Model definition for QuestionImage."""
+
+    image = models.ImageField(verbose_name="Sualın şəkli", upload_to = "question_images" )
+    question = models.ForeignKey(Question, on_delete=models.CASCADE) # Bu Tes ucundur Productionda silinecek.
+
+
+    class Meta:
+        """Meta definition for QuestionImage."""
+
+        verbose_name = 'QuestionImage'
+        verbose_name_plural = 'QuestionImage'
+
+    def __str__(self):
+        """Unicode representation of QuestionImage."""
+        return self.image.name
+    
+   
 
 class Comment(models.Model):
     """Model definition for Comment."""

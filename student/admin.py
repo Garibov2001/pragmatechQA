@@ -17,5 +17,6 @@ class SettingAdmin(admin.ModelAdmin):
 admin.site.register(Setting, SettingAdmin)
 admin.site.register(FAQ)
 admin.site.register(Question)
+admin.site.register(QuestionImage)
 admin.site.register(Comment)
 admin.site.register(Action)

@@ -1,5 +1,5 @@
 from django import forms
-from student.models import Question
+from student.models import Question, QuestionImage
 from django.core.exceptions import ValidationError
 import re
 
@@ -25,3 +25,8 @@ class QuestionForm(forms.ModelForm):
                 if(not IsCorrectTag(eachTag)):
                     raise ValidationError("Daxil etdiyiniz tag standartlara uyğun deyil")
         return data
+
+class QuestionImageForm(forms.ModelForm):
+    class Meta:
+        model = QuestionImage
+        fields = ['image', 'question']
