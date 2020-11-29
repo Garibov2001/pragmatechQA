@@ -1,4 +1,26 @@
-{% extends 'base.html' %} {% load static %} {% load crispy_forms_tags %} {% block content %}
+{% extends 'base.html' %} {% load static %} {% load crispy_forms_tags %} 
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/dropzone.css' %}" type="text/css">
+<script type="application/javascript" src="{% static 'js/dropzone.js' %}"></script>
+
+
+<style>
+    .dz{
+        border: dashed !important;
+        border-color: #ccc !important;
+        border-radius: 10px !important;
+        transition: 0.2s all;
+    }
+
+    .dz:hover{
+        background-color: aliceblue !important;
+    }
+</style>
+
+{% endblock style %}
+
+{% block content %}
 
 <main id="tt-pageContent">
     <div class="container">
@@ -6,7 +28,7 @@
             <h1 class="tt-title-border">
                 Yeni Mövzu yaradın
             </h1>
-            <form class="form-default form-create-topic" method="post" action="">
+            <form class="form-default form-create-topic" method="post" action="" enctype="multipart/form-data">
                 {% csrf_token %} 
                 
                 {{ form.title | as_crispy_field }}
@@ -24,6 +46,11 @@
                         {% endfor %} 
                     {% endif %}     
                     {{ form.content }} {{ form.media }}           
+                </div>
+                <div class="row mb-4 ">
+                    <div class="col-md-12">
+                        <div class="dropzone dz" id="myDropzone"></div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -47,7 +74,7 @@
                 </div>
                 <div class="row">
                     <div class="col-auto ml-md-auto">
-                        <input type="submit" class="btn btn-secondary btn-width-lg" value="Post yaradın">
+                        <input id="create_post_btn" type="submit" class="btn btn-secondary btn-width-lg" value="Post yaradın">
                     </div>
                 </div>
             </form>
@@ -157,13 +184,60 @@
 
 
 
-<script src="../../assets/js/app.js"></script>
 
 {% endblock content %} {% block script %}
+
+
 
 <script src="{% static 'js/tagsinput.js' %}"></script>
 <!-- highlight.js-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
+
+<script>
+    Dropzone.options.myDropzone= {
+    url: 'http://{{ request.get_host }}/create-topic/',
+    headers:{
+        'X-CSRFToken' : '{{ csrf_token }}'
+    },
+    autoProcessQueue: false,
+    maxFiles : 2, // (Back-End : 2)
+    maxFilesize : 2, //2 MB (Back-End : 2 MB)
+    parallelUploads: 2,
+    uploadMultiple : true,
+    addRemoveLinks: true,
+    autoProcessQueue: false, // Bununlar biz submit etdikde filelar yuklenecen
+    acceptedFiles: 'image/*', // (Back-End : only images)
+    dictDefaultMessage: 'Şəkilləri bura yükləyin',
+    dictFallbackMessage: 'Şəkilləri bura yükləyin',
+    dictRemoveFile: 'Şəkli sil',
+    dictFileTooBig: `Şəkilin tutumu böyüdür. Max şəkil tutumu: 2 MB`,
+    dictInvalidFileType: 'Yalnız şəkil yükləyə bilərsiniz',
+    dictMaxFilesExceeded: 'Maximum 2 şəkil yükləyə bilərsiniz',
+    dictResponseError: "Server responded with {{statusCode}} code.",
+    init: function() {
+        dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
+
+        // for Dropzone to process the queue (instead of default form behavior):
+        $('#create_post_btn').on("click", function(e) {
+            console.log("Hello")
+            // Make sure that the form isn't actually being sent.
+            e.preventDefault();
+            e.stopPropagation();
+            dzClosure.processQueue();
+        });
+
+        //send all the form data along with the files:
+        this.on("sendingmultiple", function(data, xhr, formData) {
+            formData.append("title", $("#id_title").val());
+            formData.append("content", CKEDITOR.instances.id_content.getData());
+            formData.append("tags", $("input[name='tags']").tagsinput('items')[1]);
+        });
+    }
+}
+</script>
+
+
+
 {% endblock script %}

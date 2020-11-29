@@ -46,9 +46,27 @@ def page_create_topic(request):
     wrong_tags = ''
     if request.method == "POST":
         if form.is_valid():
+            print(dict(request.POST))
+            print(dict(request.FILES))
+            # new_question = form.save()
+
+            # print(new_question)
+            
+            # imageDict = {}
+            # for imageKey, imageValue in dict(request.FILES).items():
+            #     imageDict['image'] = imageValue
+            #     imageDict['question'] = new_question
+            #     formImage = QuestionImageForm(imageDict) 
+            #     if (formImage.is_valid()):
+            #         print('Goood')
+            #         formImage.save()
+            #         # QuestionImage.objects.create(image = imageDict['image'], question = imageDict['question'])
+            #     else:
+            #         print('Question Image nese problem var qaqa.' )
+                
             # post_item = form.save(commit=False)
             # post_item.save()
-            form.save()
+            # form.save()
             return redirect('student-home')
         else:
             wrong_tags = request.POST['tags']

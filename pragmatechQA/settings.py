@@ -155,8 +155,7 @@ CKEDITOR_CONFIGS = {
         [ 'Undo', 'Redo' ],
     ], 
     'removeDialogTabs': ';'.join([
-            'link:upload',
-            
+            'link:upload', 
         ]),
     'filebrowserBrowseUrl': '',
     }
