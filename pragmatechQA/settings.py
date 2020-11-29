@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'student.apps.StudentConfig',
     'crispy_forms',
     'ckeditor',
-    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -150,24 +149,19 @@ CKEDITOR_CONFIGS = {
         'width' : '100%',
         
         'toolbar_Full': [
-        ['Format', 'Bold', 'Italic', 'Strike', '-' , 'Link', 'Image', 'SpecialChar' ],
+        ['Format', 'Bold', 'Italic', 'Strike', '-' , 'Link', 'SpecialChar' ],
         [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-'],
         [ 'CodeSnippet'],
         [ 'Undo', 'Redo' ],
     ], 
     'removeDialogTabs': ';'.join([
-            'image:advanced',
-            'image:Link',
             'link:upload',
-            'table:advanced',
-            'tableProperties:advanced',
             
         ]),
     'filebrowserBrowseUrl': '',
     }
 }
 
-CKEDITOR_ALLOW_NONIMAGE_FILES = False
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 

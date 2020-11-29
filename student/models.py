@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from taggit.managers import TaggableManager
-from ckeditor_uploader.fields import RichTextUploadingField
+from ckeditor.fields import  RichTextField
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -90,7 +90,7 @@ class Question(models.Model):
 
     title = models.CharField(verbose_name="Başlıq", max_length=50)
     tags = TaggableManager()
-    content = RichTextUploadingField(verbose_name="Məzmun")
+    content = RichTextField(verbose_name="Məzmun")
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default = 1) # Bu Tes ucundur Productionda silinecek.
     view = models.IntegerField(verbose_name="Baxış sayı", default = 0 )
     created = models.DateTimeField(auto_now_add=True)
