@@ -9,7 +9,7 @@ from taggit.models import Tag
 
 def home(request):
 
-    question_list = Question.objects.all()
+    question_list = Question.objects.all().order_by('-updated')
 
     paginator = Paginator(question_list, 5)
     page = request.GET.get('page')
@@ -31,17 +31,26 @@ def tags(request):
     template = 'categories/tags.html' 
     page_template = 'categories/tag-list.html'
     context={
-        'tags' : Tag.objects.all() if Tag.objects.all() else -1,
+        'tags' : Tag.objects.all().order_by('name') if Tag.objects.all() else -1,
         'page_template': page_template,
     }
     if request.is_ajax():
         template = page_template
     return render(request, template, context)
 
-def tag_info(request):
+def tag_info(request, slug):
+    template = 'categories/single-tag.html' 
+    page_template = 'categories/single-tag-questions.html'
+    tag = Tag.objects.filter(slug = slug).first()
+    questions = Question.objects.filter(tags__in = [tag])
     context={
+        "tag" : tag,
+        "questions" : questions,
+        "page_template": page_template,
     }
-    return render(request, 'categories/single_tag_info.html', context)
+    if request.is_ajax():
+        template = page_template
+    return render(request, 'categories/single-tag.html', context)
 
 def about(request):
     return render(request, 'main_page/about.html')
@@ -72,10 +81,9 @@ def faq(request):
     }
     return render(request, 'main_page/page-tabs.html', context)
 
-def user_activity(request, 
-                    id, 
-                    template='user-details/user-activity.html', 
-                    page_template='user-details/user-activity-list.html'):
+def user_activity(request, id):
+    template='user-details/user-activity.html' 
+    page_template='user-details/user-activity-list.html'
     temp_student = User.objects.get(id = id).student
     context={
         'student' : temp_student,
@@ -91,7 +99,7 @@ def user_questions(request, id):
     temp_student = User.objects.get(id = id).student
     context={
         'student' : temp_student,
-        'questions' : temp_student.question_set.all() if temp_student.question_set.all() else -1,
+        'questions' : temp_student.question_set.all().order_by('-updated') if temp_student.question_set.all() else -1,
         'page_template': page_template,
     }
     if request.is_ajax():
@@ -104,7 +112,7 @@ def user_comments(request, id):
     temp_student = User.objects.get(id = id).student
     context={
         'student' : temp_student,
-        'comments' : temp_student.comment_set.all() if temp_student.comment_set.all() else -1,
+        'comments' : temp_student.comment_set.all().order_by('-updated') if temp_student.comment_set.all() else -1,
         'page_template': page_template,
     }
     if request.is_ajax():
@@ -122,7 +130,7 @@ def user_tags(request, id):
     custom_list = [tag.id for tag in my_tags]
     context={
         'student' : temp_student,
-        'tags' : Tag.objects.filter(id__in=custom_list) if Tag.objects.filter(id__in=custom_list) else -1,
+        'tags' : Tag.objects.filter(id__in=custom_list).order_by('name') if Tag.objects.filter(id__in=custom_list) else -1,
         'page_template': page_template,
     }
     if request.is_ajax():
