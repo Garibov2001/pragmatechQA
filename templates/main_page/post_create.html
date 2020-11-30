@@ -28,24 +28,22 @@
             <h1 class="tt-title-border">
                 Yeni Mövzu yaradın
             </h1>
-            <form class="form-default form-create-topic" method="post" action="" enctype="multipart/form-data">
+            <form class="form-default form-create-topic" method="POST" enctype="multipart/form-data">
                 {% csrf_token %} 
                 
                 {{ form.title | as_crispy_field }}
-
+                
                 <div class="pt-editor mb-4 d-flex flex-column">
-                    <h6 class="pt-title">Mövzu*</h6>                
-                    {% if form.content.errors %}
-                        {% for eachError in form.content.errors %}
-                            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                                {{eachError}}. Daha ətraflı məlumat üçün <a href="{% url 'student-rules' %}" class="alert-link">bura</a> clickləyin.
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        {% endfor %} 
-                    {% endif %}     
-                    {{ form.content }} {{ form.media }}           
+                    <h6 class="pt-title">Mövzu*</h6>   
+                    <!-- Errors -->
+                    <div label='id_content' class="d-none alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        <span label="error_content"></span>Qaydaları oxumaq üçün <a href="{% url 'student-rules' %}" class="alert-link"> clickləyin.</a> 
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>                  
+                    {{ form.content }} {{ form.media }}  
+                             
                 </div>
                 <div class="row mb-4 ">
                     <div class="col-md-12">
@@ -56,19 +54,14 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="inputTopicTags">Taqlar*</label> 
-                            {% if form.tags.errors %}
-                                {% for eachError in form.tags.errors %}
-                                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                                    {{eachError}}. Daha ətraflı məlumat üçün <a href="{% url 'student-rules' %}" class="alert-link">bura</a> clickləyin.
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <!-- Errors -->
+                            <div label='id_tags' class="d-none alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                                <span label="error_content"></span>Qaydaları oxumaq üçün <a href="{% url 'student-rules' %}" class="alert-link"> clickləyin.</a> 
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                {% endfor %} 
-                                <input type="tags" name="tags" value="{{wrong_tags}}" class="form-control" id="inputTopicTags" data-role="tagsinput" placeholder="Taq istifadə edin"> 
-                            {% else %}
-                                <input type="tags" name="tags" class="form-control is-invalid" id="inputTopicTags" data-role="tagsinput" placeholder="Taq istifadə edin"> 
-                            {% endif %}
+                                </button>
+                            </div>  
+                            <input id="id_tags" type="text" data-role="tagsinput" placeholder="Taq istifadə edin"> 
                         </div>
                     </div>
                 </div>
@@ -77,111 +70,13 @@
                         <input id="create_post_btn" type="submit" class="btn btn-secondary btn-width-lg" value="Post yaradın">
                     </div>
                 </div>
+
+                <button type="button" id="test">Click</button>
             </form>
         </div>
 
     </div>
 </main>
-
-<div id="js-popup-settings" class="tt-popup-settings">
-    <div class="tt-btn-col-close">
-        <a href="#">
-            <span class="tt-icon-title">
-				<svg>
-					<use xlink:href="#icon-settings_fill"></use>
-				</svg>
-			</span>
-            <span class="tt-icon-text">
-				Settings
-			</span>
-            <span class="tt-icon-close">
-				<svg>
-					<use xlink:href="#icon-cancel"></use>
-				</svg>
-			</span>
-        </a>
-    </div>
-    <form class="form-default">
-        <div class="tt-form-upload">
-            <div class="row no-gutter">
-                <div class="col-auto">
-                    <div class="tt-avatar">
-                        <svg>
-		                  <use xlink:href="#icon-ava-d"></use>
-		                </svg>
-                    </div>
-                </div>
-                <div class="col-auto ml-auto">
-                    <a href="#" class="btn btn-primary">Upload Picture</a>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="settingsUserName">Username</label>
-            <input type="text" name="name" class="form-control" id="settingsUserName" placeholder="azyrusmax">
-        </div>
-        <div class="form-group">
-            <label for="settingsUserEmail">Email</label>
-            <input type="text" name="name" class="form-control" id="settingsUserEmail" placeholder="Sample@sample.com">
-        </div>
-        <div class="form-group">
-            <label for="settingsUserPassword">Password</label>
-            <input type="password" name="name" class="form-control" id="settingsUserPassword" placeholder="************">
-        </div>
-        <div class="form-group">
-            <label for="settingsUserLocation">Location</label>
-            <input type="text" name="name" class="form-control" id="settingsUserLocation" placeholder="Slovakia">
-        </div>
-        <div class="form-group">
-            <label for="settingsUserWebsite">Website</label>
-            <input type="text" name="name" class="form-control" id="settingsUserWebsite" placeholder="Sample.com">
-        </div>
-        <div class="form-group">
-            <label for="settingsUserAbout">About</label>
-            <textarea name="" placeholder="Few words about you" class="form-control" id="settingsUserAbout"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="settingsUserAbout">Notify me via Email</label>
-            <div class="checkbox-group">
-                <input type="checkbox" id="settingsCheckBox01" name="checkbox">
-                <label for="settingsCheckBox01">
-		            <span class="check"></span>
-		            <span class="box"></span>
-		            <span class="tt-text">When someone replies to my thread</span>
-		        </label>
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="settingsCheckBox02" name="checkbox">
-                <label for="settingsCheckBox02">
-		            <span class="check"></span>
-		            <span class="box"></span>
-		            <span class="tt-text">When someone likes my thread or reply</span>
-		        </label>
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="settingsCheckBox03" name="checkbox">
-                <label for="settingsCheckBox03">
-		            <span class="check"></span>
-		            <span class="box"></span>
-		            <span class="tt-text">When someone mentions me</span>
-		        </label>
-            </div>
-        </div>
-        <div class="form-group">
-            <a href="#" class="btn btn-secondary">Yadda saxla</a>
-        </div>
-    </form>
-</div>
-<a href="page-create-topic.html" class="tt-btn-create-topic">
-    <span class="tt-icon">
-        <svg>
-          <use xlink:href="#icon-create_new"></use>
-        </svg>
-    </span>
-</a>
-</div>
-</main>
-
 
 
 
@@ -207,7 +102,7 @@
     parallelUploads: 2,
     uploadMultiple : true,
     addRemoveLinks: true,
-    autoProcessQueue: false, // Bununlar biz submit etdikde filelar yuklenecen
+    autoProcessQueue: false, // Bununla biz submit etdikde filelar yuklenecek
     acceptedFiles: 'image/*', // (Back-End : only images)
     dictDefaultMessage: 'Şəkilləri bura yükləyin',
     dictFallbackMessage: 'Şəkilləri bura yükləyin',
@@ -221,21 +116,108 @@
 
         // for Dropzone to process the queue (instead of default form behavior):
         $('#create_post_btn').on("click", function(e) {
-            console.log("Hello")
-            // Make sure that the form isn't actually being sent.
-            e.preventDefault();
-            e.stopPropagation();
-            dzClosure.processQueue();
+            if (CheckContent() & CheckTag())
+            {
+                console.log(dzClosure.getQueuedFiles())
+                if (dzClosure.getQueuedFiles().length > 0) 
+                {                      
+                    e.preventDefault();
+                    e.stopPropagation();  
+                    dzClosure.processQueue();  
+                } 
+                else 
+                {
+                    var blob = new Blob();
+                    blob.upload = { 'chunked': dzClosure.defaultOptions.chunking };
+                    dzClosure.uploadFile(blob);
+                }    
+            }
+            else
+            {
+                return false;
+                console.log('Sagol')
+            }
+            return false;
         });
 
         //send all the form data along with the files:
         this.on("sendingmultiple", function(data, xhr, formData) {
             formData.append("title", $("#id_title").val());
             formData.append("content", CKEDITOR.instances.id_content.getData());
-            formData.append("tags", $("input[name='tags']").tagsinput('items')[1]);
+            formData.append("tags", $("#id_tags").tagsinput('items'));
         });
+
+        
+        function CheckContent()
+        {
+            content = CKEDITOR.instances.id_content.getData()
+            contentErrorDiv = $("div[label='id_content']")
+            if(!content) //Empty
+            {
+                contentErrorDiv.removeClass('d-none')
+                contentErrorDiv.find('span[label="error_content"]').text('Mövzu doldurulmalıdır.')
+                return false;
+            }
+            else
+            {   
+                contentErrorDiv.addClass('d-none');
+                return true;
+            }
+
+        }
+
+        function CheckTag()
+        {
+            tagList = $("#id_tags").tagsinput('items')
+            tagErrorDiv = $("div[label='id_tags']")
+            if(tagList.length > 0) 
+            {
+                tagErrorDiv.addClass('d-none')
+                for (var i = 0; i < tagList.length; i++ )
+                {
+                    if(! IsCorrectTag(tagList[i]))
+                    {
+                        tagErrorDiv.removeClass('d-none')
+                        tagErrorDiv.find('span[label="error_content"]').text('Daxil etdiyiniz tag standartlara uyğun deyil.')
+                        return false
+                    }
+                    
+
+                }
+                return true
+            }
+            else // Empty
+            {  
+                tagErrorDiv.removeClass('d-none')
+                tagErrorDiv.find('span[label="error_content"]').text('Ən azı 1 tag yazılmalıdır.')
+                return false
+            }
+
+        }
+
+        function IsCorrectTag(argTag)
+        {
+            let pattern = /^[a-zA-Z0-9]{1,17}(-([a-zA-Z0-9]){1,17}){0,3}$/
+            if (argTag.match(pattern))
+            {
+                return true;
+            }
+            return false;            
+        }
+
+
+    
     }
 }
+</script>
+
+
+<script>
+    $('#test').on('click', function()
+    {
+
+    });
+
 </script>
 
 

@@ -30,3 +30,11 @@ class QuestionImageForm(forms.ModelForm):
     class Meta:
         model = QuestionImage
         fields = ['image', 'question']
+
+    def clean_image(self):
+        data = self.cleaned_data['image']
+        MAX_IMAGE_SIZE = 2097152 # 2 MB
+        if (data.size > MAX_IMAGE_SIZE):
+            raise ValidationError(f"Daxil etdiyiniz sekil: {data} hecmi coxdur. Max sekil hecmi: {MAX_IMAGE_SIZE}")
+        else:
+            return data

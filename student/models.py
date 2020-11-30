@@ -88,9 +88,9 @@ class FAQ(models.Model):
 class Question(models.Model):
     """Model definition for Question."""
 
-    title = models.CharField(verbose_name="Başlıq", max_length=50)
-    tags = TaggableManager()
-    content = RichTextField(verbose_name="Məzmun")
+    title = models.CharField(verbose_name="Başlıq", max_length=50) #Client Side REQUIRED + MAX_LENGTH = 50
+    tags = TaggableManager() # Client Side REQUIRED + REGEX
+    content = RichTextField(verbose_name="Məzmun") # Client Side REQUIRED
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default = 1) # Bu Tes ucundur Productionda silinecek.
     view = models.IntegerField(verbose_name="Baxış sayı", default = 0 )
     created = models.DateTimeField(auto_now_add=True)
@@ -133,7 +133,7 @@ class QuestionImage(models.Model):
 
     def __str__(self):
         """Unicode representation of QuestionImage."""
-        return self.image.name
+        return f'[ {self.question.title} ] - {self.image.name}'
     
    
 

@@ -46,22 +46,23 @@ def page_create_topic(request):
     wrong_tags = ''
     if request.method == "POST":
         if form.is_valid():
-            print(request.POST)
-            print(request.FILES)
-            new_question = form.save()
-            
-            imageDict = {}
-            for imageKey, imageValue in dict(request.FILES).items():
-                imageDict['image'] = imageValue[0]
-                imageDict['question'] = new_question
-                QuestionImage.objects.create(image = imageDict['image'], question = imageDict['question'])
-                # formImage = QuestionImageForm(imageDict) 
-                # if (formImage.is_valid()):
-                #     print('Goood')
-                #     formImage.save()
-                # else:
-                #     print(formImage.errors)
-                #     print('Question Image nese problem var qaqa.' )
+            new_question = form.save()  
+
+
+            if((len(request.FILES) == 1) and (request.FILES['file[0]'].name == 'blob')):
+                pass
+            else:
+                MAX_FILES = 2 # The number of max files (Client-Side 2)
+                if (len(request.FILES) <= MAX_FILES ):   
+                    for imageKey, imageValue in dict(request.FILES).items():
+                        questionData = {'question' : new_question}
+                        imageData = {'image' : imageValue[0]}
+                        formImage = QuestionImageForm(questionData, imageData)
+                        if(formImage.is_valid()):
+                            formImage.save()
+                else:
+                    print('jsonda Error gonderilecek')
+        
                 
             return redirect('student-home')
         else:
