@@ -3,8 +3,23 @@ from django.utils import timezone
 from taggit.managers import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
+from taggit.models import Tag
 
 # Create your models here.
+
+class TagInfo(models.Model):
+    tag = models.OneToOneField(Tag, on_delete=models.CASCADE) 
+    description = models.TextField(verbose_name="Məzmun")
+
+    class Meta:
+        """Meta definition for StudyGroup."""
+
+        verbose_name = 'TagInfo'
+        verbose_name_plural = 'TagInfos'
+
+    def __str__(self):
+        """Unicode representation of StudyGroup."""
+        return self.description
 
 class StudyGroup(models.Model):
     """Model definition for StudyGroup."""

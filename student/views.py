@@ -78,8 +78,9 @@ def page_create_topic(request):
 
 def faq(request):
     context={
+        "faq_list" : FAQ.objects.all().order_by('-updated'),
     }
-    return render(request, 'main_page/page-tabs.html', context)
+    return render(request, 'main_page/faq.html', context)
 
 def user_activity(request, id):
     template='user-details/user-activity.html' 
