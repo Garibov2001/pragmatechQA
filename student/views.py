@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse 
+from django.http import JsonResponse
 from student.models import *
 from student.forms import QuestionForm, QuestionImageForm
-from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -43,34 +43,34 @@ def rules(request):
 
 def page_create_topic(request):
     form = QuestionForm(request.POST or None)
-    wrong_tags = ''
     if request.method == "POST":
+        print(request.POST)
+        print(request.FILES)
         if form.is_valid():
             new_question = form.save()  
-
-
             if((len(request.FILES) == 1) and (request.FILES['file[0]'].name == 'blob')):
                 pass
             else:
                 MAX_FILES = 2 # The number of max files (Client-Side 2)
-                if (len(request.FILES) <= MAX_FILES ):   
-                    for imageKey, imageValue in dict(request.FILES).items():
+                if (len(request.FILES) <= MAX_FILES ): 
+                    for imageKey, imageValue in request.FILES.items():
                         questionData = {'question' : new_question}
-                        imageData = {'image' : imageValue[0]}
+                        imageData = {'image' : imageValue}
                         formImage = QuestionImageForm(questionData, imageData)
+                        print('Burdan: ')
                         if(formImage.is_valid()):
                             formImage.save()
+                        else:
+                            return JsonResponse(formImage.errors.as_json(), safe = False)  
                 else:
-                    print('jsonda Error gonderilecek')
-        
-                
-            return redirect('student-home')
+                    return JsonResponse(JsonResponse({'max_files' : 2}, safe = False))
+                    
+            return JsonResponse({'data' : 'form_valid'})
         else:
-            wrong_tags = request.POST['tags']
+            return JsonResponse(form.errors.as_json(), safe = False)
 
     context={
         'form':form,
-        'wrong_tags':wrong_tags
     }
     return render(request, 'main_page/post_create.html', context)
 

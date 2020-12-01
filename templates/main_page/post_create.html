@@ -31,16 +31,17 @@
             <form class="form-default form-create-topic" method="POST" enctype="multipart/form-data">
                 {% csrf_token %} 
                 
+                <div label='id_title' class="d-none alert alert-danger mt-3" role="alert">
+                    <span label="error_content"></span>Qaydaları oxumaq üçün <a href="{% url 'student-rules' %}" class="alert-link"> clickləyin.</a> 
+                </div> 
+
                 {{ form.title | as_crispy_field }}
                 
                 <div class="pt-editor mb-4 d-flex flex-column">
                     <h6 class="pt-title">Mövzu*</h6>   
                     <!-- Errors -->
-                    <div label='id_content' class="d-none alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <div label='id_content' class="d-none alert alert-danger mt-3" role="alert">
                         <span label="error_content"></span>Qaydaları oxumaq üçün <a href="{% url 'student-rules' %}" class="alert-link"> clickləyin.</a> 
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>                  
                     {{ form.content }} {{ form.media }}  
                              
@@ -55,11 +56,8 @@
                         <div class="form-group">
                             <label for="inputTopicTags">Taqlar*</label> 
                             <!-- Errors -->
-                            <div label='id_tags' class="d-none alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                            <div label='id_tags' class="d-none alert alert-danger mt-3" role="alert">
                                 <span label="error_content"></span>Qaydaları oxumaq üçün <a href="{% url 'student-rules' %}" class="alert-link"> clickləyin.</a> 
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                </button>
                             </div>  
                             <input id="id_tags" type="text" data-role="tagsinput" placeholder="Taq istifadə edin"> 
                         </div>
@@ -67,11 +65,9 @@
                 </div>
                 <div class="row">
                     <div class="col-auto ml-md-auto">
-                        <input id="create_post_btn" type="submit" class="btn btn-secondary btn-width-lg" value="Post yaradın">
+                        <input id="create_post_btn" type="button" class="btn btn-secondary btn-width-lg" value="Post yaradın">
                     </div>
                 </div>
-
-                <button type="button" id="test">Click</button>
             </form>
         </div>
 
@@ -116,9 +112,8 @@
 
         // for Dropzone to process the queue (instead of default form behavior):
         $('#create_post_btn').on("click", function(e) {
-            if (CheckContent() & CheckTag())
+            if (CheckContent() & CheckTag() & CheckTitle())
             {
-                console.log(dzClosure.getQueuedFiles())
                 if (dzClosure.getQueuedFiles().length > 0) 
                 {                      
                     e.preventDefault();
@@ -127,7 +122,7 @@
                 } 
                 else 
                 {
-                    var blob = new Blob();
+                    var blob = new Blob(); //Back check is blob or not
                     blob.upload = { 'chunked': dzClosure.defaultOptions.chunking };
                     dzClosure.uploadFile(blob);
                 }    
@@ -135,9 +130,7 @@
             else
             {
                 return false;
-                console.log('Sagol')
             }
-            return false;
         });
 
         //send all the form data along with the files:
@@ -170,7 +163,7 @@
         {
             tagList = $("#id_tags").tagsinput('items')
             tagErrorDiv = $("div[label='id_tags']")
-            if(tagList.length > 0) 
+            if(tagList.length > 0 &&  tagList.length < 6 )  //Back max 5
             {
                 tagErrorDiv.addClass('d-none')
                 for (var i = 0; i < tagList.length; i++ )
@@ -180,16 +173,14 @@
                         tagErrorDiv.removeClass('d-none')
                         tagErrorDiv.find('span[label="error_content"]').text('Daxil etdiyiniz tag standartlara uyğun deyil.')
                         return false
-                    }
-                    
-
+                    }                    
                 }
                 return true
             }
             else // Empty
             {  
                 tagErrorDiv.removeClass('d-none')
-                tagErrorDiv.find('span[label="error_content"]').text('Ən azı 1 tag yazılmalıdır.')
+                tagErrorDiv.find('span[label="error_content"]').text('Ən azı 1, ən çoxu 5 tag yazılmalıdır.')
                 return false
             }
 
@@ -197,7 +188,7 @@
 
         function IsCorrectTag(argTag)
         {
-            let pattern = /^[a-zA-Z0-9]{1,17}(-([a-zA-Z0-9]){1,17}){0,3}$/
+            let pattern = /^[a-zA-Z0-9]{1,17}(-([a-zA-Z0-9]){1,17}){0,3}$/ //Back regex
             if (argTag.match(pattern))
             {
                 return true;
@@ -205,20 +196,45 @@
             return false;            
         }
 
+        function CheckTitle()
+        {
+            title = $("#id_title").val()
+            titleErrorDiv = $("div[label='id_title']")
+            if(!title.trim()) //Empty
+            {
+                titleErrorDiv.removeClass('d-none')
+                titleErrorDiv.find('span[label="error_content"]').text('Başlıq doldurulmalıdır.')
+                return false;
+            }
+            else
+            {   
+                if(title.trim().length > 50)
+                {
+                    titleErrorDiv.removeClass('d-none')
+                    titleErrorDiv.find('span[label="error_content"]').text('Başlığın uzunluğu maximum 50 xarakterdən ibarət ola bilər.')
+                    return false;
 
+                }
+                else
+                {
+                    titleErrorDiv.addClass('d-none')
+                    return true;
+                }
+            }
+
+        }
     
-    }
+    },
+    success: function(file, response)
+    {
+        console.log(response)
+    },
+
 }
 </script>
 
 
-<script>
-    $('#test').on('click', function()
-    {
 
-    });
-
-</script>
 
 
 
