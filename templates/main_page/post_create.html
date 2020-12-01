@@ -217,17 +217,49 @@
                 }
                 else
                 {
-                    titleErrorDiv.addClass('d-none')
-                    return true;
+                    console.log(IsTitleNormalized(title.trim()));
+                    if(IsTitleNormalized(title.trim()))
+                    {
+                        titleErrorDiv.addClass('d-none')
+                        return true;
+                    }
+                    else
+                    {
+                        titleErrorDiv.removeClass('d-none')
+                        titleErrorDiv.find('span[label="error_content"]').text('Daxil etdiyiniz başlıq standartlara uyğun deyil.')
+                        return false;
+                    }
+
                 }
             }
 
         }
     
+        function IsTitleNormalized(argData)
+        {
+            var azeriChar = ['ə','ü','ö','ğ','ı','ç','ş']
+
+            lowerData = argData.toLowerCase()
+
+            for (var i=0; i < lowerData.length; i++)
+            {
+                if((lowerData[i].charCodeAt(0) >= 32 && lowerData[i].charCodeAt(0) <= 126) || azeriChar.includes(lowerData[i]) )
+                {
+                   null;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+
+        }
     },
     success: function(file, response)
     {
         console.log(response)
+        location.href = "{% url 'student-home' %}";
     },
 
 }

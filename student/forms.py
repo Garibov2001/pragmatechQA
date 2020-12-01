@@ -16,6 +16,16 @@ class QuestionForm(forms.ModelForm):
         model = Question
         fields = ['title', 'content', 'tags']
 
+    def clean_title(self):
+        data = self.cleaned_data['title']
+        azeriChar = ['ə','ü','ö','ğ','ı','ç','ş']
+        for char in data.lower():
+            if (ord(char)>=32 and ord(char) <=126) or (char in azeriChar) :
+                pass
+            else:
+                raise ValidationError("Daxil etdiyiniz başlıq standartlara uyğun deyil")
+        return data
+
     def clean_tags(self):
         data = self.cleaned_data['tags']
         if (len(data)>5):
@@ -24,7 +34,7 @@ class QuestionForm(forms.ModelForm):
             for eachTag in data:
                 if(not IsCorrectTag(eachTag)):
                     raise ValidationError("Daxil etdiyiniz tag standartlara uyğun deyil")
-        return data
+        return [each.lower() for each in data]
 
 class QuestionImageForm(forms.ModelForm):
     class Meta:
