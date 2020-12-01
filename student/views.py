@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from student.models import *
 from student.forms import QuestionForm
-from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -59,14 +60,43 @@ def page_create_topic(request):
     }
     return render(request, 'main_page/post_create.html', context)
 
+@login_required
 def question_detail(request, slug):
     question = get_object_or_404(Question, slug=slug)
-    question.view +=1
-    question.save()
+    if request.method=="POST":
+        if request.is_ajax():
+            id=request.POST.get("id")
+            question=get_object_or_404(Question,id=id)
+            cur_user = request.user
+            stud=Student.objects.get(user=cur_user)
+            liked=question.action_set.filter(action_type=1).filter(student=stud).exists()
+            disliked=question.action_set.filter(action_type=0).filter(student=stud).exists()
+            if request.POST.get('action_type')=='dislike':
+                if request.POST.get('type')=='question':
+                    if not disliked:
+                        action=Action.objects.create(student=stud, question=Question.objects.get(id=id), type=0, action_type=0)
+                        if liked:
+                            question.action_set.filter(action_type=1).filter(student=stud).delete()
+                    else:
+                        question.action_set.filter(action_type=0).filter(student=stud).delete()     
+            elif request.POST.get('action_type')=='like':
+                if request.POST.get('type')=='question':
+                    if not liked:
+                        action=Action.objects.create(student=stud, question=Question.objects.get(id=id), type=0, action_type=1)
+                        if disliked:
+                            question.action_set.filter(action_type=0).filter(student=stud).delete()
+                    else:
+                        question.action_set.filter(action_type=1).filter(student=stud).delete()
+        return JsonResponse({'liked': str(liked), 'disliked': str(disliked)})
+    else:
+        question.view +=1
+        question.save()
     context={
         'question': question,
+        'student': Student.objects.first(),
     }
     return render(request, 'single-user/page-single-topic.html', context)
+    
 def faq(request):
     context={
     }

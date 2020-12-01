@@ -1,4 +1,19 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %} 
+
+{% load static %} 
+
+{% load action_methods %}
+
+{% block style %}
+<style>
+.action_active{
+    fill: #2c62a0 !important;
+}
+</style>
+{% endblock style %}
+
+
+{% block content %}
 
 <main id="tt-pageContent">
     <div class="container">
@@ -18,7 +33,7 @@
                             </a>
                         </div>
                         <h3 class="tt-item-title">
-                            <a href="#">{{question.title}}</a>
+                            <span href="#">{{question.title}}</span>
                         </h3>
                         <div class="tt-item-tag">
                             <ul class="tt-list-badge">
@@ -32,13 +47,13 @@
                         {{ question.content|safe|linebreaks }}
                     </div>
                     <div class="tt-item-info info-bottom">
-                        <a href="#" class="tt-icon-btn">
-                            <i class="tt-icon"><svg><use xlink:href="#icon-like"></use></svg></i>
-                            <span class="tt-text">{{ question.get_upvote }}</span>
+                        <a href="#" class="tt-icon-btn" onclick="actions({{question.id}},'{{request.user}}', 'question', 'like') ">
+                            <i class="tt-icon"><svg class="like_{{question.id}}"{% if question|upvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-like"></use></svg></i>
+                            <span class="tt-text like_{{question.id}}_count">{{ question.get_upvote }}</span>
                         </a>
-                        <a href="#" class="tt-icon-btn">
-                             <i class="tt-icon"><svg><use xlink:href="#icon-dislike"></use></svg></i>
-                            <span class="tt-text">{{ question.get_downvote }}</span>
+                        <a href="#" class="tt-icon-btn" onclick="actions({{question.id}},'{{request.user}}', 'question', 'dislike') " >
+                             <i class="tt-icon"><svg class="dislike_{{question.id}}"{% if question|downvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-dislike"></use></svg></i>
+                            <span class="tt-text dislike_{{question.id}}_count">{{ question.get_downvote }}</span>
                         </a>
                         <div class="col-separator"></div>
                     </div>
@@ -473,3 +488,8 @@
 </main>
 
 {% endblock content %}
+
+{% block script %}
+<script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+<script src="{% static 'js/actions.js' %}"></script>
+{% endblock script %}

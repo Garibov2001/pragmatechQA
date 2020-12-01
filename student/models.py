@@ -121,7 +121,7 @@ class Question(models.Model):
         return len(self.comment_set.all())
 
     def get_unique_slug(self):
-        slug = slugify(self.title.replace('ı', 'i').replace('ə', 'e').replace('ş', 's').replace('ç', 'c'))
+        slug = slugify(self.title.replace('ı', 'i').replace('ə', 'e').replace('ş', 's').replace('ç', 'c').replace('ğ', 'g').replace('ü', 'u').replace('ö', 'o'))
         ran = randrange(10000, 99999)
         unique_slug = f'{slug}-{str(ran)}'
         while Question.objects.filter(slug=unique_slug).exists():
