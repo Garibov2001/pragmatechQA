@@ -109,7 +109,6 @@ class Question(models.Model):
     def __str__(self):
         """Unicode representation of Question."""
         return self.title
-    
 
     def get_downvote(self):
         return len(self.action_set.filter(action_type = 0).all())
@@ -128,7 +127,16 @@ class Question(models.Model):
             unique_slug = f'{slug}-{str(ran)}'
             ran = randrange(10000, 99999)
         return unique_slug
-
+        
+    def actions(self, action_num, stud, vote1, vote2):
+        if not vote1:
+            action=Action.objects.create(student=stud, question=self, type=0, action_type=action_num)
+            if vote2:
+                self.action_set.filter(action_type=1 if action_num==0 else 0).filter(student=stud).delete()
+        else:
+            self.action_set.filter(action_type=action_num).filter(student=stud).delete() 
+        return action_num
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = self.get_unique_slug()

@@ -4,8 +4,7 @@ function vote_actions(type, id, color, value){
   $(type + id).css("fill", color);
 }
 
-function actions(id, user, type, vote, event) {
-  // event.preventDefault();
+function actions(id, user, type, vote) {
   $.ajax({
     type: "POST",
     url: `${window.location.href}`,

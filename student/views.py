@@ -65,29 +65,18 @@ def question_detail(request, slug):
     question = get_object_or_404(Question, slug=slug)
     if request.method=="POST":
         if request.is_ajax():
-            id=request.POST.get("id")
-            question=get_object_or_404(Question,id=id)
-            cur_user = request.user
-            stud=Student.objects.get(user=cur_user)
+            question=get_object_or_404(Question,id=request.POST.get("id"))
+            stud=Student.objects.get(user=request.user)
             liked=question.action_set.filter(action_type=1).filter(student=stud).exists()
             disliked=question.action_set.filter(action_type=0).filter(student=stud).exists()
-            if request.POST.get('action_type')=='dislike':
-                if request.POST.get('type')=='question':
-                    if not disliked:
-                        action=Action.objects.create(student=stud, question=Question.objects.get(id=id), type=0, action_type=0)
-                        if liked:
-                            question.action_set.filter(action_type=1).filter(student=stud).delete()
-                    else:
-                        question.action_set.filter(action_type=0).filter(student=stud).delete()     
-            elif request.POST.get('action_type')=='like':
-                if request.POST.get('type')=='question':
-                    if not liked:
-                        action=Action.objects.create(student=stud, question=Question.objects.get(id=id), type=0, action_type=1)
-                        if disliked:
-                            question.action_set.filter(action_type=0).filter(student=stud).delete()
-                    else:
-                        question.action_set.filter(action_type=1).filter(student=stud).delete()
-        return JsonResponse({'liked': str(liked), 'disliked': str(disliked)})
+            if request.POST.get('type')=='question':
+                if request.POST.get('action_type')=='dislike':
+                    question.actions(0, stud, disliked, liked)
+                else:
+                    question.actions(1, stud, liked, disliked)
+            return JsonResponse({'liked': str(liked), 'disliked': str(disliked)})
+            
+
     else:
         question.view +=1
         question.save()
