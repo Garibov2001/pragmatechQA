@@ -149,9 +149,8 @@ CKEDITOR_CONFIGS = {
         'width' : '100%',
         
         'toolbar_Full': [
-        ['Format', 'Bold', 'Italic', 'Strike', '-' , 'Link', 'SpecialChar' ],
-        [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-'],
-        [ 'CodeSnippet'],
+        ['Format', 'Bold', 'Italic', '-' , 'Link', 'Blockquote', 'CodeSnippet'],
+        [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent', '-'],
         [ 'Undo', 'Redo' ],
     ], 
     'removeDialogTabs': ';'.join([

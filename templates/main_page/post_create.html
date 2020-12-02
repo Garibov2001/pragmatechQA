@@ -16,6 +16,12 @@
     .dz:hover{
         background-color: aliceblue !important;
     }
+
+    .ck-editor__editable {
+        min-height: 200px;
+        background-color: #e2e7ea !important;
+        color: #182730;
+    }
 </style>
 
 {% endblock style %}
@@ -43,9 +49,9 @@
                     <div label='id_content' class="d-none alert alert-danger mt-3" role="alert">
                         <span label="error_content"></span>Qaydaları oxumaq üçün <a href="{% url 'student-rules' %}" class="alert-link"> clickləyin.</a> 
                     </div>                  
-                    {{ form.content }} {{ form.media }}  
-                             
+                    <div id="id_content"></div>     
                 </div>
+
                 <div class="row mb-4 ">
                     <div class="col-md-12">
                         <div class="dropzone dz" id="myDropzone"></div>
@@ -76,7 +82,9 @@
 
 
 
-{% endblock content %} {% block script %}
+{% endblock content %} 
+
+{% block script %}
 
 
 
@@ -85,10 +93,17 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
+<script src="{% static 'ckeditor/ckeditor.js' %}"></script>
+<!-- Conifiguration of ckeditor -->
+<script src="{% static 'ckeditor/ckeditor_config.js' %}"></script>
+
+    
+
+</script>
 
 <script>
     Dropzone.options.myDropzone= {
-    url: 'http://{{ request.get_host }}/create-topic/',
+    url: `${location.href}`,
     headers:{
         'X-CSRFToken' : '{{ csrf_token }}'
     },
@@ -136,14 +151,14 @@
         //send all the form data along with the files:
         this.on("sendingmultiple", function(data, xhr, formData) {
             formData.append("title", $("#id_title").val());
-            formData.append("content", CKEDITOR.instances.id_content.getData());
+            formData.append("content", id_content.getData());
             formData.append("tags", $("#id_tags").tagsinput('items'));
         });
 
         
         function CheckContent()
         {
-            content = CKEDITOR.instances.id_content.getData()
+            content = id_content.getData()
             contentErrorDiv = $("div[label='id_content']")
             if(!content) //Empty
             {
@@ -263,9 +278,10 @@
     },
 
 }
+
+
+
 </script>
-
-
 
 
 
