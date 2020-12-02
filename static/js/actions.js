@@ -1,4 +1,11 @@
-function actions(id, user, type, vote) {
+function vote_actions(type, id, color, value){
+  count = $(type + id + "_count").html();
+  $(type + id + "_count").html(parseInt(count) + value);
+  $(type + id).css("fill", color);
+}
+
+function actions(id, user, type, vote, event) {
+  // event.preventDefault();
   $.ajax({
     type: "POST",
     url: `${window.location.href}`,
@@ -7,39 +14,21 @@ function actions(id, user, type, vote) {
     success: function (response) {
       if (vote == "dislike") {
         if (response.disliked == "True") {
-          console.log('bobobo');
-          count = $(".dislike_" + id + "_count").html();
-          $(".dislike_" + id + "_count").html(parseInt(count) - 1);
-          $(".dislike_" + id).css("fill", "#666f74");
-          
+          vote_actions(".dislike_",id, "#666f74", - 1);
         } else {
-          count = $(".dislike_" + id + "_count").html();
-          $(".dislike_" + id + "_count").html(parseInt(count) + 1);
-          $(".dislike_" + id).css("fill", "#2c62a0");
+          vote_actions(".dislike_",id, "#2c62a0", 1);
           if (response.liked == "True"){
-            console.log('bobobo');
-            count = $(".like_" + id + "_count").html();
-            $(".like_" + id + "_count").html(parseInt(count) - 1);
-            $(".like_" + id).css("fill", "#666f74");
+            vote_actions(".like_",id, "#666f74", - 1);
           }
         }
       }
       else if (vote == "like"){
         if (response.liked == "True") {
-          console.log('bobobo');
-          count = $(".like_" + id + "_count").html();
-          $(".like_" + id + "_count").html(parseInt(count) - 1);
-          $(".like_" + id).css("fill", "#666f74");
-          
+          vote_actions(".like_",id, "#666f74", - 1);
         } else {
-          count = $(".like_" + id + "_count").html();
-          $(".like_" + id + "_count").html(parseInt(count) + 1);
-          $(".like_" + id).css("fill", "#2c62a0");
+          vote_actions(".like_",id, "#2c62a0", 1);
           if (response.disliked == "True"){
-            console.log('bobobo');
-            count = $(".dislike_" + id + "_count").html();
-          $(".dislike_" + id + "_count").html(parseInt(count) - 1);
-          $(".dislike_" + id).css("fill", "#666f74");
+            vote_actions(".dislike_",id, "#666f74", - 1);
           }
         }
       }
