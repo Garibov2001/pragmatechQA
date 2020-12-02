@@ -45,8 +45,6 @@ def rules(request):
 def page_create_topic(request):
     form = QuestionForm(request.POST or None)
     if request.method == "POST":
-        print(request.POST)
-        print(request.FILES)
         if form.is_valid():
             new_question = form.save()  
             if((len(request.FILES) == 1) and (request.FILES['file[0]'].name == 'blob')):
@@ -58,7 +56,6 @@ def page_create_topic(request):
                         questionData = {'question' : new_question}
                         imageData = {'image' : imageValue}
                         formImage = QuestionImageForm(questionData, imageData)
-                        print('Burdan: ')
                         if(formImage.is_valid()):
                             formImage.save()
                         else:
