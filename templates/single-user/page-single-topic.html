@@ -28,9 +28,9 @@
                             <div class="tt-avatar-title">
                                <a href="#">{{question.student.user.get_full_name}}</a>
                             </div>
-                            <a href="#" class="tt-info-time">
+                            <div class="tt-info-time">
                                 <i class="tt-icon"><svg><use xlink:href="#icon-time"></use></svg></i>{{question.created|date:"d F, Y" }}
-                            </a>
+                            </div>
                         </div>
                         <h3 class="tt-item-title">
                             <span href="#">{{question.title}}</span>
@@ -47,37 +47,34 @@
                         {{ question.content|safe|linebreaks }}
                     </div>
                     <div class="tt-item-info info-bottom">
-                        <a href="#" class="tt-icon-btn" onclick="actions({{question.id}},'{{request.user}}', 'question', 'like') ">
+                        <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'question', 'like'); ">
                             <i class="tt-icon"><svg class="like_{{question.id}}"{% if question|upvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-like"></use></svg></i>
                             <span class="tt-text like_{{question.id}}_count">{{ question.get_upvote }}</span>
                         </a>
-                        <a href="#" class="tt-icon-btn" onclick="actions({{question.id}},'{{request.user}}', 'question', 'dislike') " >
+                        <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'question', 'dislike') " >
                              <i class="tt-icon"><svg class="dislike_{{question.id}}"{% if question|downvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-dislike"></use></svg></i>
                             <span class="tt-text dislike_{{question.id}}_count">{{ question.get_downvote }}</span>
                         </a>
                         <div class="col-separator"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="tt-item">
-                <div class="tt-info-box">
-                    <h6 class="tt-title">Thread Status</h6>
-                    <div class="tt-row-icon">
-                        <div class="tt-item">
-                            <a href="#" class="tt-icon-btn tt-position-bottom">
-                                <i class="tt-icon"><svg><use xlink:href="#icon-reply"></use></svg></i>
-                                <span class="tt-text">{{ question.get_comment_count }}</span>
-                            </a>
-                        </div>
-                        <div class="tt-item">
-                            <a href="#" class="tt-icon-btn tt-position-bottom">
-                                <i class="tt-icon"><svg><use xlink:href="#icon-view"></use></svg></i>
-                                <span class="tt-text">{{question.view}}</span>
-                            </a>
+                        <div class="tt-row-icon">
+                            <div class="tt-item">
+                                <div class="tt-icon-btn tt-position-bottom">
+                                    <i class="tt-icon"><svg><use xlink:href="#icon-reply"></use></svg></i>
+                                    <span class="tt-text">{{ question.get_comment_count }}</span>
+                                </div>
+                            </div>
+                            <div class="tt-item">
+                                <div class="tt-icon-btn tt-position-bottom">
+                                    <i class="tt-icon"><svg><use xlink:href="#icon-view"></use></svg></i>
+                                    <span class="tt-text">{{question.view}}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
+            
             <div class="tt-item tt-wrapper-success">
                  <div class="tt-single-topic">
                     <div class="tt-item-header pt-noborder">
@@ -492,4 +489,9 @@
 {% block script %}
 <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
 <script src="{% static 'js/actions.js' %}"></script>
+
+<!-- highlight.js-->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 {% endblock script %}
