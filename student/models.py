@@ -186,7 +186,7 @@ class Comment(models.Model):
 
     def actions(self, action_num, stud, vote1, vote2):
         if not vote1:
-            action = Action.objects.create(student = stud, comment = self, type=0, action_type = action_num)
+            action = Action.objects.create(student = stud, comment = self, type=1, action_type = action_num)
             if vote2:
                 self.action_set.filter(action_type = 1 if action_num == 0 else 0).filter(student = stud).delete()
         else:

@@ -112,6 +112,9 @@ def question_detail(request, slug):
                 stud = Student.objects.get(user=request.user)
                 liked = question.action_set.filter(action_type=1).filter(student=stud).exists()
                 disliked = question.action_set.filter(action_type=0).filter(student=stud).exists()
+                print('Netice')
+                print(liked)
+                print(disliked)
                 if request.POST.get('type') == 'question':
                     if request.POST.get('action_type')=='dislike':
                         question.actions(0, stud, disliked, liked)
@@ -125,14 +128,17 @@ def question_detail(request, slug):
                 # comment basqa suala aid olsun.
                 comment = get_object_or_404(Comment, id = request.POST.get("comment_id"), question = question)
                 liked = comment.action_set.filter(action_type = 1).filter(student = student).exists()
-                disliked = question.action_set.filter(action_type=0).filter(student = student).exists()
+                disliked = comment.action_set.filter(action_type=0).filter(student = student).exists()
                 print('Comment:')
                 print(liked)
-                # print(disliked)
+                print(disliked)
+                print(request.POST.get('action_type'))
                 if request.POST.get('type') == 'comment':
                     if request.POST.get('action_type')=='dislike':
+                        # 0 - downvote dislike
                         comment.actions(0, student, disliked, liked)
                     else:
+                        # 1 - upvote like
                         comment.actions(1, student, liked, disliked)
                 return JsonResponse({'liked': str(liked), 'disliked': str(disliked)})
     else:

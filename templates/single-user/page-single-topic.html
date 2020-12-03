@@ -67,11 +67,11 @@
                     </div>
                     <div class="tt-item-info info-bottom">
                         <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'question', 'like', 'question_vote');">
-                            <i class="tt-icon"><svg label='question' class="like_{{question.id}}"{% if question|upvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-like"></use></svg></i>
+                            <i class="tt-icon"><svg label='question' class="like_{{question.id}}"{% if question|question_upvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-like"></use></svg></i>
                             <span label='question'  class="tt-text like_{{question.id}}_count">{{ question.get_upvote }}</span>
                         </a>
                         <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'question', 'dislike', 'question_vote');" >
-                             <i  class="tt-icon"><svg label='question' class="dislike_{{question.id}}"{% if question|downvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-dislike"></use></svg></i>
+                             <i  class="tt-icon"><svg label='question' class="dislike_{{question.id}}"{% if question|question_downvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-dislike"></use></svg></i>
                             <span label='question' class="tt-text dislike_{{question.id}}_count">{{ question.get_downvote }}</span>
                         </a>
                         <div class="col-separator"></div>
@@ -113,17 +113,16 @@
                     </div>
                     <div class="tt-item-info info-bottom">
                         <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'comment', 'like', 'comment_vote', {{eachComment.id}});">
-                            <i class="tt-icon"><svg label='comment' class="like_{{eachComment.id}}"{% if eachComment|upvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-like"></use></svg></i>
+                            <i class="tt-icon"><svg label='comment' class="like_{{eachComment.id}}"{% if eachComment|comment_upvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-like"></use></svg></i>
                             <span label='comment' class="tt-text like_{{eachComment.id}}_count">{{ eachComment.get_upvote }}</span>
                         </a>
                         <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'comment', 'dislike', 'comment_vote', {{eachComment.id}});" >
-                             <i class="tt-icon"><svg label='comment' class="dislike_{{eachComment.id}}"{% if eachComment|downvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-dislike"></use></svg></i>
+                             <i class="tt-icon"><svg label='comment' class="dislike_{{eachComment.id}}"{% if eachComment|comment_downvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-dislike"></use></svg></i>
                             <span label='comment' class="tt-text dislike_{{eachComment.id}}_count">{{ eachComment.get_downvote }}</span>
                         </a>
                     </div>
                 </div>
                 </div>
-
             {% endfor %}
 
         </div>
