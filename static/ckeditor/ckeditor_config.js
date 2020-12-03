@@ -22,7 +22,7 @@ else if (document.querySelector('#id_answer_content' ))
     // Comment
     ClassicEditor.create( document.querySelector('#id_answer_content' ), {
         language : 'en',
-        toolbar: [ 'heading', '|', 'bold', 'italic', '|', 'link','blockQuote','codeBlock', 
+        toolbar: [ 'heading', '|', 'bold', 'italic', '|', 'link','codeBlock', 
         '|','numberedList','bulletedList','indent','outdent','|','undo','redo'],
         codeBlock: {
             languages: [{ language: 'plaintext', label: 'Plain Code', class: '' }]

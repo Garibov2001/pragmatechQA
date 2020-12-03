@@ -149,7 +149,7 @@ CKEDITOR_CONFIGS = {
         'width' : '100%',
         
         'toolbar_Full': [
-        ['Format', 'Bold', 'Italic', '-' , 'Link', 'Blockquote', 'CodeSnippet'],
+        ['Format', 'Bold', 'Italic', '-' , 'Link', 'CodeSnippet'],
         [ 'NumberedList', 'BulletedList', 'Indent', 'Outdent', '-'],
         [ 'Undo', 'Redo' ],
     ], 

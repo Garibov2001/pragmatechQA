@@ -41,6 +41,7 @@
                  <div class="tt-single-topic">
                     <div class="tt-item-header">
                         <div class="tt-item-info info-top">
+                            <input id="request_user" type="hidden" value="{{request.user}" >
                             <div class="tt-avatar-icon">
                                 <i class="tt-icon"><svg><use xlink:href="#icon-ava-d"></use></svg></i>
                             </div>
@@ -95,33 +96,33 @@
             {% for eachComment in comments %}
                 <div class="tt-item">
                     <div class="tt-single-topic">
-                    <div class="tt-item-header pt-noborder">
-                        <div class="tt-item-info info-top">
-                            <div class="tt-avatar-icon">
-                                <i class="tt-icon"><svg><use xlink:href="#icon-ava-t"></use></svg></i>
+                        <div class="tt-item-header pt-noborder">
+                            <div class="tt-item-info info-top">
+                                <div class="tt-avatar-icon">
+                                    <i class="tt-icon"><svg><use xlink:href="#icon-ava-t"></use></svg></i>
+                                </div>
+                                <div class="tt-avatar-title">
+                                    <a href="#">{{eachComment.student.user.get_full_name}}</a>
+                                </div>
+                                <a href="#" class="tt-info-time">
+                                    <i class="tt-icon"><svg><use xlink:href="#icon-time"></use></svg></i>{{eachComment.created|date:"d F, Y" }}
+                                </a>
                             </div>
-                            <div class="tt-avatar-title">
-                                <a href="#">{{eachComment.student.user.get_full_name}}</a>
-                            </div>
-                            <a href="#" class="tt-info-time">
-                                <i class="tt-icon"><svg><use xlink:href="#icon-time"></use></svg></i>{{eachComment.created|date:"d F, Y" }}
+                        </div>
+                        <div class="tt-item-description">
+                            {{ eachComment.content|safe|linebreaks }}
+                        </div>
+                        <div class="tt-item-info info-bottom">
+                            <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'comment', 'like', 'comment_vote', {{eachComment.id}});">
+                                <i class="tt-icon"><svg label='comment' class="like_{{eachComment.id}}"{% if eachComment|comment_upvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-like"></use></svg></i>
+                                <span label='comment' class="tt-text like_{{eachComment.id}}_count">{{ eachComment.get_upvote }}</span>
+                            </a>
+                            <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'comment', 'dislike', 'comment_vote', {{eachComment.id}});" >
+                                <i class="tt-icon"><svg label='comment' class="dislike_{{eachComment.id}}"{% if eachComment|comment_downvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-dislike"></use></svg></i>
+                                <span label='comment' class="tt-text dislike_{{eachComment.id}}_count">{{ eachComment.get_downvote }}</span>
                             </a>
                         </div>
                     </div>
-                    <div class="tt-item-description">
-                        {{ eachComment.content|safe|linebreaks }}
-                    </div>
-                    <div class="tt-item-info info-bottom">
-                        <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'comment', 'like', 'comment_vote', {{eachComment.id}});">
-                            <i class="tt-icon"><svg label='comment' class="like_{{eachComment.id}}"{% if eachComment|comment_upvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-like"></use></svg></i>
-                            <span label='comment' class="tt-text like_{{eachComment.id}}_count">{{ eachComment.get_upvote }}</span>
-                        </a>
-                        <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'comment', 'dislike', 'comment_vote', {{eachComment.id}});" >
-                             <i class="tt-icon"><svg label='comment' class="dislike_{{eachComment.id}}"{% if eachComment|comment_downvote_check:student %}style="fill:#2c62a0;"{% endif %}><use xlink:href="#icon-dislike"></use></svg></i>
-                            <span label='comment' class="tt-text dislike_{{eachComment.id}}_count">{{ eachComment.get_downvote }}</span>
-                        </a>
-                    </div>
-                </div>
                 </div>
             {% endfor %}
 
@@ -390,6 +391,7 @@
                 } 
                 else 
                 {
+                    e.preventDefault();
                     var blob = new Blob(); //Back check is blob or not
                     blob.upload = { 'chunked': dzClosure.defaultOptions.chunking };
                     dzClosure.uploadFile(blob);
@@ -397,6 +399,7 @@
             }
             else
             {
+                e.preventDefault();
                 return false;
             }
         });
@@ -406,7 +409,7 @@
         {
             formData.append("question_id", '{{question.id}}');
             formData.append("content", id_answer_content.getData());
-            formData.append("post_type", "create_answer");
+            formData.append("post_type", "comment_create");
         });
 
         
@@ -431,8 +434,48 @@
 
     success: function(file, response)
     {
-        console.log(response)
-        // location.href = "{% url 'student-home' %}";
+        html = `<div class="tt-item">
+                    <div class="tt-single-topic">
+                        <div class="tt-item-header pt-noborder">
+                            <div class="tt-item-info info-top">
+                                <div class="tt-avatar-icon">
+                                    <i class="tt-icon"><svg><use xlink:href="#icon-ava-t"></use></svg></i>
+                                </div>
+                                <div class="tt-avatar-title">
+                                    <a href="#">${response.full_name}</a>
+                                </div>
+                                <a href="#" class="tt-info-time">
+                                    <i class="tt-icon"><svg><use xlink:href="#icon-time"></use></svg></i>${response.created_date}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tt-item-description">
+                            ${response.content}
+                        </div>
+                        <div class="tt-item-info info-bottom">
+                            <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions(${response.question_id},'${$('#request_user').val()}', 'comment', 'like', 'comment_vote', ${response.comment_id});">
+                                <i class="tt-icon"><svg label='comment' class="like_${response.comment_id}"><use xlink:href="#icon-like"></use></svg></i>
+                                <span label='comment' class="tt-text like_${response.comment_id}_count">0</span>
+                            </a>
+                            <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions(${response.question_id},'${$('#request_user').val()}', 'comment', 'dislike', 'comment_vote', ${response.comment_id});">
+                                <i class="tt-icon"><svg label='comment' class="dislike_${response.comment_id}"><use xlink:href="#icon-dislike"></use></svg></i>
+                                <span label='comment' class="tt-text dislike_${response.comment_id}_count">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>`
+        
+        $('.tt-single-topic-list').append(html)
+        
+        comments = $('.tt-single-topic-list')[0].querySelectorAll('.tt-item')
+
+        $('html,body').animate({scrollTop: $(comments[comments.length-1]).offset().top - 100},'slow');
+
+        setTimeout(function(){ 
+            dzClosure.removeAllFiles(true)
+            id_answer_content.setData('')
+        }, 2000); // 5 sec
+
     },
 
 }

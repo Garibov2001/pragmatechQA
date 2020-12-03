@@ -4,6 +4,7 @@ from student.forms import QuestionForm, QuestionImageForm, CommentForm, CommentI
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 
 def home(request):
@@ -79,7 +80,7 @@ def question_detail(request, slug):
     comments = question.comment_set.all()
     if request.method=="POST":
         if request.is_ajax():
-            if(request.POST['post_type'] == 'create_answer'):
+            if(request.POST['post_type'] == 'comment_create'):
                 question = get_object_or_404(Question, id = int(request.POST['question_id']))
                 student = Student.objects.get(user = request.user)
                 comment_data = request.POST.copy()
@@ -104,23 +105,28 @@ def question_detail(request, slug):
                                 else:
                                     return JsonResponse(commentImage.errors.as_json(), safe = False)  
                         else:
-                            return JsonResponse(JsonResponse({'max_files' : 2}, safe = False))
-                            
-                    return JsonResponse({'data' : 'form_valid'})
+                            return JsonResponse({'max_files' : 2})                            
+                    
+                    comment_data = {}
+                    comment_data['full_name'] = f'{new_comment.student.user.get_full_name()}'
+                    comment_data['created_date'] = f'{(new_comment.created).strftime("%d %B, %Y")}'
+                    comment_data['content'] = f'{new_comment.content}'
+                    comment_data['question_id'] = int(f'{new_comment.question.id}')
+                    comment_data['comment_id'] = int(f'{new_comment.id}')
+                    return JsonResponse(comment_data)
+            
             elif(request.POST['post_type'] == 'question_vote'):
                 question = get_object_or_404(Question,id=request.POST.get("id"))
                 stud = Student.objects.get(user=request.user)
                 liked = question.action_set.filter(action_type=1).filter(student=stud).exists()
                 disliked = question.action_set.filter(action_type=0).filter(student=stud).exists()
-                print('Netice')
-                print(liked)
-                print(disliked)
                 if request.POST.get('type') == 'question':
                     if request.POST.get('action_type')=='dislike':
                         question.actions(0, stud, disliked, liked)
                     else:
                         question.actions(1, stud, liked, disliked)
                 return JsonResponse({'liked': str(liked), 'disliked': str(disliked)})
+            
             elif(request.POST['post_type'] == 'comment_vote'):
                 question = get_object_or_404(Question,id =request.POST.get("id"))
                 student = Student.objects.get(user = request.user)
@@ -129,10 +135,6 @@ def question_detail(request, slug):
                 comment = get_object_or_404(Comment, id = request.POST.get("comment_id"), question = question)
                 liked = comment.action_set.filter(action_type = 1).filter(student = student).exists()
                 disliked = comment.action_set.filter(action_type=0).filter(student = student).exists()
-                print('Comment:')
-                print(liked)
-                print(disliked)
-                print(request.POST.get('action_type'))
                 if request.POST.get('type') == 'comment':
                     if request.POST.get('action_type')=='dislike':
                         # 0 - downvote dislike
