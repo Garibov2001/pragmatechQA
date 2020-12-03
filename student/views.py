@@ -1,6 +1,6 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, QueryDict
 from student.models import *
-from student.forms import QuestionForm, QuestionImageForm
+from student.forms import QuestionForm, QuestionImageForm, CommentForm, CommentImageForm
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
@@ -42,6 +42,7 @@ def about(request):
 def rules(request):
     return render(request, 'main_page/rules.html')
 
+@login_required
 def page_create_topic(request):
     form = QuestionForm(request.POST or None)
     if request.method == "POST":
@@ -75,24 +76,70 @@ def page_create_topic(request):
 @login_required
 def question_detail(request, slug):
     question = get_object_or_404(Question, slug=slug)
+    comments = question.comment_set.all()
     if request.method=="POST":
         if request.is_ajax():
-            question=get_object_or_404(Question,id=request.POST.get("id"))
-            stud=Student.objects.get(user=request.user)
-            liked=question.action_set.filter(action_type=1).filter(student=stud).exists()
-            disliked=question.action_set.filter(action_type=0).filter(student=stud).exists()
-            if request.POST.get('type')=='question':
-                if request.POST.get('action_type')=='dislike':
-                    question.actions(0, stud, disliked, liked)
-                else:
-                    question.actions(1, stud, liked, disliked)
-            return JsonResponse({'liked': str(liked), 'disliked': str(disliked)})
-            
-
+            if(request.POST['post_type'] == 'create_answer'):
+                question = get_object_or_404(Question, id = int(request.POST['question_id']))
+                student = Student.objects.get(user = request.user)
+                comment_data = request.POST.copy()
+                comment_data['question'] = question
+                comment_data['student'] = student
+                del comment_data['post_type']
+                del comment_data['question_id']
+                commentForm = CommentForm(comment_data)
+                if(commentForm.is_valid()):
+                    new_comment = commentForm.save()
+                    if((len(request.FILES) == 1) and (request.FILES['file[0]'].name == 'blob')):
+                        pass
+                    else:
+                        MAX_FILES = 2 # The number of max files (Client-Side 2)
+                        if (len(request.FILES) <= MAX_FILES ): 
+                            for imageKey, imageValue in request.FILES.items():
+                                commentData = {'comment' : new_comment}
+                                imageData = {'image' : imageValue}
+                                commentImage = CommentImageForm(commentData, imageData)
+                                if(commentImage.is_valid()):
+                                    commentImage.save()
+                                else:
+                                    return JsonResponse(commentImage.errors.as_json(), safe = False)  
+                        else:
+                            return JsonResponse(JsonResponse({'max_files' : 2}, safe = False))
+                            
+                    return JsonResponse({'data' : 'form_valid'})
+            elif(request.POST['post_type'] == 'question_vote'):
+                question = get_object_or_404(Question,id=request.POST.get("id"))
+                stud = Student.objects.get(user=request.user)
+                liked = question.action_set.filter(action_type=1).filter(student=stud).exists()
+                disliked = question.action_set.filter(action_type=0).filter(student=stud).exists()
+                if request.POST.get('type') == 'question':
+                    if request.POST.get('action_type')=='dislike':
+                        question.actions(0, stud, disliked, liked)
+                    else:
+                        question.actions(1, stud, liked, disliked)
+                return JsonResponse({'liked': str(liked), 'disliked': str(disliked)})
+            elif(request.POST['post_type'] == 'comment_vote'):
+                question = get_object_or_404(Question,id =request.POST.get("id"))
+                student = Student.objects.get(user = request.user)
+                # Asagida hem comment_id, hem de question ile axtaririq cunki ola bilsin ki,
+                # comment basqa suala aid olsun.
+                comment = get_object_or_404(Comment, id = request.POST.get("comment_id"), question = question)
+                liked = comment.action_set.filter(action_type = 1).filter(student = student).exists()
+                disliked = question.action_set.filter(action_type=0).filter(student = student).exists()
+                print('Comment:')
+                print(liked)
+                # print(disliked)
+                if request.POST.get('type') == 'comment':
+                    if request.POST.get('action_type')=='dislike':
+                        comment.actions(0, student, disliked, liked)
+                    else:
+                        comment.actions(1, student, liked, disliked)
+                return JsonResponse({'liked': str(liked), 'disliked': str(disliked)})
     else:
         question.view +=1
         question.save()
     context={
+        'comments' : comments,
         'question': question,
         'student': Student.objects.first(),
     }

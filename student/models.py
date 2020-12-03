@@ -52,7 +52,6 @@ class Student(models.Model):
         return ans
     
     
-
 class Setting(models.Model):
     """Model definition for Setting."""
 
@@ -94,11 +93,12 @@ class Question(models.Model):
     title = models.CharField(verbose_name="Başlıq", max_length=50) #Client Side REQUIRED + MAX_LENGTH = 50
     tags = TaggableManager() # Client Side REQUIRED + REGEX
     content = RichTextField(verbose_name="Məzmun") # Client Side REQUIRED
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, default = 1) # Bu Tes ucundur Productionda silinecek.
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, default=1) # Bu Tes ucundur Productionda silinecek.
     view = models.IntegerField(verbose_name="Baxış sayı", default = 0 )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     slug = models.SlugField(unique=True, editable=False, max_length=130)
+    answer =  models.IntegerField(verbose_name="Cavab Commentin İDsi", null=True)
 
     class Meta:
         """Meta definition for Question."""
@@ -142,6 +142,7 @@ class Question(models.Model):
             self.slug = self.get_unique_slug()
         return super(Question, self).save(*args, **kwargs)
 
+
 class QuestionImage(models.Model):
     """Model definition for QuestionImage."""
 
@@ -160,13 +161,12 @@ class QuestionImage(models.Model):
         return f'[ {self.question.title} ] - {self.image.name}'
     
    
-
 class Comment(models.Model):
     """Model definition for Comment."""
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    comment = models.TextField(verbose_name=("Məzmun"), null=True)
+    content = models.TextField(verbose_name=("Məzmun"), null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -176,9 +176,46 @@ class Comment(models.Model):
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
 
+
+    def get_downvote(self):
+        return len(self.action_set.filter(action_type = 0).all())
+
+
+    def get_upvote(self):
+        return len(self.action_set.filter(action_type = 1).all())
+
+    def actions(self, action_num, stud, vote1, vote2):
+        if not vote1:
+            action = Action.objects.create(student = stud, comment = self, type=0, action_type = action_num)
+            if vote2:
+                self.action_set.filter(action_type = 1 if action_num == 0 else 0).filter(student = stud).delete()
+        else:
+            self.action_set.filter(action_type = action_num).filter(student = stud).delete() 
+        return action_num
+
+
     def __str__(self):
         """Unicode representation of Comment."""
-        return self.comment
+        return f'[ {self.question.title} ] - {self.content}'
+
+
+class CommentImage(models.Model):
+    """Model definition for CommentImage."""
+
+    image = models.ImageField(verbose_name="Commentin şəkli", upload_to = "comment_images" )
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+
+    class Meta:
+        """Meta definition for CommentImage."""
+
+        verbose_name = 'CommentImage'
+        verbose_name_plural = 'CommentImage'
+
+    def __str__(self):
+        """Unicode representation of CommentImage."""
+        return f'[Question:  {self.comment.question.title} ] - [Comment:  {self.comment.content} ] - {self.image.name}'
+   
 
 
 class Action(models.Model):

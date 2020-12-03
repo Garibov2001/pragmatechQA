@@ -1,5 +1,5 @@
 from django import forms
-from student.models import Question, QuestionImage
+from student.models import Question, QuestionImage, Comment, CommentImage
 from django.core.exceptions import ValidationError
 import re
 
@@ -48,3 +48,23 @@ class QuestionImageForm(forms.ModelForm):
             raise ValidationError(f"Daxil etdiyiniz sekil: {data} hecmi coxdur. Max sekil hecmi: {MAX_IMAGE_SIZE}")
         else:
             return data
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['question', 'student', 'content']
+
+class CommentImageForm(forms.ModelForm):
+    class Meta:
+        model = CommentImage
+        fields = ['image', 'comment']
+    
+    def clean_image(self):
+        data = self.cleaned_data['image']
+        MAX_IMAGE_SIZE = 2097152 # 2 MB
+        if (data.size > MAX_IMAGE_SIZE):
+            raise ValidationError(f"Daxil etdiyiniz sekil: {data} hecmi coxdur. Max sekil hecmi: {MAX_IMAGE_SIZE}")
+        else:
+            return data
+
