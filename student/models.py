@@ -154,6 +154,12 @@ class Comment(models.Model):
         """Unicode representation of Comment."""
         return self.comment
 
+    def get_downvote(self):
+        return len(self.action_set.filter(action_type = 0).all())
+
+    def get_upvote(self):
+        return len(self.action_set.filter(action_type = 1).all())
+
 
 class Action(models.Model):
     """Model definition for Action."""

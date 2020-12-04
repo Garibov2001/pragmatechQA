@@ -5,7 +5,8 @@
 {% for question in questions %}
     <div class="tt-item">
         <div class="tt-col-avatar">
-            <img class="tt-icon" src="/{{ student.picture }}" />
+            <a href="{% url 'user_activity' id=question.student.id %}">
+            <img class="tt-icon" src="{{ question.student.picture.url }}" />
         </div>
         <div class="tt-col-description">
             <h6 class="tt-title">
@@ -13,11 +14,15 @@
                     {{ question.title }}
                 </a>
             </h6>
-        </div>
-        <div class="tt-col-category">
-            {% for tag in question.tags.all %} 
-                <span class="tt-color01 tt-badge">{{ tag }}</span>
-            {% endfor %} 
+            <div class="row align-items-center no-gutters">
+                <div class="col-11">
+                    <ul class="tt-list-badge">
+                        {% for tag in question.tags.all %} 
+                            <li><a href="{% url 'single_tag' slug=tag.slug %}"><span class="tt-badge">{{ tag.name }}</span></a></li>
+                        {% endfor %} 
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class="tt-col-value hide-mobile text-center">{{ question.get_upvote }}</div>
         <div class="tt-col-value hide-mobile text-center">{{ question.get_downvote }}</div>

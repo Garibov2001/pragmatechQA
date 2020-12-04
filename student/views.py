@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import *
 from taggit.models import Tag
+from itertools import chain
 
 
 def home(request):
@@ -86,8 +87,10 @@ def user_activity(request, id):
     template='user-details/user-activity.html' 
     page_template='user-details/user-activity-list.html'
     temp_student = User.objects.get(id = id).student
+    activity = sorted(chain(temp_student.question_set.all(), temp_student.comment_set.all()),key=lambda instance: instance.updated)
     context={
         'student' : temp_student,
+        'activity' : activity if activity else -1,
         'page_template': page_template,
     }
     if request.is_ajax():
@@ -137,3 +140,4 @@ def user_tags(request, id):
     if request.is_ajax():
         template = page_template
     return render(request, template, context)
+    from itertools import chain

@@ -11,6 +11,6 @@ urlpatterns = [
     path('user/<int:id>/comments', views.user_comments, name='user_comments'),
     path('user/<int:id>/tags', views.user_tags, name='user_tags'),
     path('tags/', views.tags, name='tags'),
-    path('tags/<slug:slug>', views.tag_info, name='single_tag'),
+    path('tag/<slug:slug>', views.tag_info, name='single_tag'),
     path('faq', views.faq, name='faq'),
 ]
