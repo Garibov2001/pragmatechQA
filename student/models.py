@@ -142,7 +142,22 @@ class Question(models.Model):
             self.slug = self.get_unique_slug()
         return super(Question, self).save(*args, **kwargs)
 
+class QuestionImage(models.Model):
+    """Model definition for QuestionImage."""
 
+    image = models.ImageField(verbose_name="Sualın şəkli", upload_to = "question_images" )
+    question = models.ForeignKey(Question, on_delete=models.CASCADE) # Bu Tes ucundur Productionda silinecek.
+
+
+    class Meta:
+        """Meta definition for QuestionImage."""
+
+        verbose_name = 'QuestionImage'
+        verbose_name_plural = 'QuestionImage'
+
+    def __str__(self):
+        """Unicode representation of QuestionImage."""
+        return f'[ {self.question.title} ] - {self.image.name}'
 class Comment(models.Model):
     """Model definition for Comment."""
 

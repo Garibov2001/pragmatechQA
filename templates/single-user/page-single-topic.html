@@ -4,13 +4,6 @@
 
 {% load action_methods %}
 
-{% block style %}
-<style>
-.action_active{
-    fill: #2c62a0 !important;
-}
-</style>
-{% endblock style %}
 
 
 {% block content %}
@@ -45,6 +38,9 @@
                     </div>
                     <div class="tt-item-description">
                         {{ question.content|safe|linebreaks }}
+                        {%for question_image in question.questionimage_set.all%}
+                        <img src="{{question_image.image.url}}" alt="">
+                        {%endfor%}
                     </div>
                     <div class="tt-item-info info-bottom">
                         <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'question', 'like'); ">
