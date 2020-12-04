@@ -466,9 +466,15 @@
                 </div>`
         
         $('.tt-single-topic-list').append(html)
-        
         comments = $('.tt-single-topic-list')[0].querySelectorAll('.tt-item')
+        console.log($(comments[comments.length-1]).find('code'))
 
+        code = $(comments[comments.length-1]).find('code')[0]
+        if(code)
+        {
+            hljs.highlightBlock(code)
+            $(comments[comments.length-1]).find('code').addClass("hljs javascript");
+        }
         $('html,body').animate({scrollTop: $(comments[comments.length-1]).offset().top - 100},'slow');
 
         setTimeout(function(){ 
