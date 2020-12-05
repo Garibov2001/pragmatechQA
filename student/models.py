@@ -196,7 +196,7 @@ class Comment(models.Model):
 
     def __str__(self):
         """Unicode representation of Comment."""
-        return f'Q:[{self.question.title} ] - C:[{self.content[0:20]}...]'
+        return f'Q:/{self.question.title} / - C:/{self.content[0:20]}.../'
 
 
 class CommentImage(models.Model):

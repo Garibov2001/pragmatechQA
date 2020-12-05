@@ -5,8 +5,10 @@ def FilterComments(question_obj):
     tempComments = list(question_obj.comment_set.all())
     # print(tempComments))
     
+    # Eger sualin cavabi varsa 1 - ci yere push edir
     if(Comment.objects.filter(id = question_obj.answer).exists()):
         filtered_comments.append(Comment.objects.filter(id = question_obj.answer).first())
+
 
     for i in range(0, len(tempComments)):
         if(tempComments[i].id == question_obj.answer):
@@ -24,6 +26,9 @@ def FilterComments(question_obj):
         filtered_comments.append(max)
         tempComments[max_index] = temp
 
-    print(filtered_comments)
+        
+    
+    
+    return filtered_comments
 
     

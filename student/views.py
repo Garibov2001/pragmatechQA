@@ -171,7 +171,7 @@ def question_detail(request, slug):
         question.view +=1
         question.save()
     context={
-        'comments' : comments,
+        'comments' : FilterComments(question),
         'question': question,
         'student': Student.objects.get(user = request.user),
     }
