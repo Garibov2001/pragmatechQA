@@ -102,3 +102,58 @@ function actions(id, user, type, vote, post_type, comment_id = null) {
 }
 
 
+function check_answer(question_id, comment_id) 
+{
+    $.ajax({
+      type: "POST",
+      url: `${window.location.href}`,
+      data: { 
+        'question_id': parseInt(question_id), 
+        'comment_id': parseInt(comment_id), 
+        'post_type': 'select_answer',
+        'csrfmiddlewaretoken': window.CSRF_TOKEN },
+
+      dataType: "json",
+      success: function (response) 
+      {
+        myList = document.querySelectorAll('[label="label_comment_id"]')
+        
+        // console.log(myList)
+        for(var i = 0; i < myList.length;  i++)
+        {
+            if($(myList[i]).val() == comment_id)
+            {
+              console.log(response.fill_green)
+              if(response.fill_green)
+              {
+                $(myList[i]).closest('.tt-item').find('.select_answer').css('fill','#48A868')
+                $(myList[i]).closest('.tt-item').addClass('tt-wrapper-success')
+                console.log($(myList[i]).closest('.tt-item'))
+
+              }              
+              else
+              {
+                $(myList[i]).closest('.tt-item').find('.select_answer').css('fill','#aeb3b4')
+                $(myList[i]).closest('.tt-item').removeClass('tt-wrapper-success')
+              }
+            }
+            else
+            {
+              $(myList[i]).closest('.tt-item').find('.select_answer').css('fill','#aeb3b4')
+              $(myList[i]).closest('.tt-item').removeClass('tt-wrapper-success')
+
+            }
+          
+          // console.log(i)
+          // if($(myList[i]))
+
+        }
+        
+        
+      },
+    });
+  
+}
+
+
+

@@ -32,3 +32,11 @@ def comment_upvote_check(comment, student):
     if not temp:
         return 0
     return 0 if temp.action_type == 0 else 1
+
+# Answer or not
+@register.filter
+def comment_answer_check(question, comment):
+    if(question.answer == comment.id):
+        return 1
+    else:
+        return 0

@@ -94,7 +94,8 @@
                 </div>
             </div>          
             {% for eachComment in comments %}
-                <div class="tt-item">
+                <div class="tt-item  {% if question.answer == eachComment.id %} tt-wrapper-success {% endif %} ">
+                    <input label='label_comment_id' type="hidden" value="{{eachComment.id}}">
                     <div class="tt-single-topic">
                         <div class="tt-item-header pt-noborder">
                             <div class="tt-item-info info-top">
@@ -108,6 +109,15 @@
                                     <i class="tt-icon"><svg><use xlink:href="#icon-time"></use></svg></i>{{eachComment.created|date:"d F, Y" }}
                                 </a>
                             </div>
+                            {% if question.student.user == request.user %}
+                                <div class="tt-item-info info-top">                                
+                                    <div class="tt-avatar-icon" style="padding-top: 60px;"> 
+                                        <a href="#" onclick="event.preventDefault(); check_answer({{question.id}}, {{eachComment.id}});">
+                                            <i class="tt-icon"><svg   width="36" height="36" viewBox="0 0 36 36"><path class="select_answer" {% if question|comment_answer_check:eachComment %} style='fill:#48A868;' {% else %} style='fill:#aeb3b4;' {% endif %}  d="M6 14l8 8L30 6v8L14 30l-8-8v-8z"></path></svg></i>
+                                        </a> 
+                                    </div>                                
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="tt-item-description">
                             {{ eachComment.content|safe|linebreaks }}

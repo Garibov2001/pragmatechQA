@@ -45,10 +45,14 @@ def rules(request):
 
 @login_required
 def page_create_topic(request):
-    form = QuestionForm(request.POST or None)
+    form = QuestionForm()
     if request.method == "POST":
+        form = QuestionForm(request.POST or None)
         if form.is_valid():
             new_question = form.save()  
+            student = Student.objects.get(user = request.user)
+            new_question.student = student
+            new_question.save()
             if((len(request.FILES) == 1) and (request.FILES['file[0]'].name == 'blob')):
                 pass
             else:
@@ -143,6 +147,22 @@ def question_detail(request, slug):
                         # 1 - upvote like
                         comment.actions(1, student, liked, disliked)
                 return JsonResponse({'liked': str(liked), 'disliked': str(disliked)})
+    
+            elif(request.POST['post_type'] == 'select_answer'):
+                student = get_object_or_404(Student, id = request.user.id)
+                question = get_object_or_404(Question, id = request.POST.get("question_id"), student = student)
+                comment = get_object_or_404(Comment, id = request.POST.get("comment_id"), question = question)
+                print(question.answer )
+                if (question.answer == comment.id):
+                    question.answer = None
+                    question.save()
+                    fill_green = False
+                else:
+                    question.answer = comment.id
+                    question.save()
+                    fill_green = True
+
+                return JsonResponse({'fill_green': fill_green})
     else:
         question.view +=1
         question.save()
