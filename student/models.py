@@ -196,7 +196,7 @@ class Comment(models.Model):
 
     def __str__(self):
         """Unicode representation of Comment."""
-        return f'[ {self.question.title} ] - {self.content}'
+        return f'Q:[{self.question.title} ] - C:[{self.content[0:20]}...]'
 
 
 class CommentImage(models.Model):
@@ -232,8 +232,8 @@ class Action(models.Model):
     student = models.ForeignKey(Student, verbose_name="Tələbə", on_delete = models.PROTECT) 
     question = models.ForeignKey(Question, verbose_name="Sual", on_delete=models.CASCADE, blank=True, null=True)
     comment = models.ForeignKey(Comment, verbose_name="Komment", on_delete=models.CASCADE, blank=True, null=True)
-    type = models.BooleanField(verbose_name=("Tip"),choices=type_choices)
-    action_type = models.BooleanField(choices=action_choices)  # False - 'Downvote', True - 'Upvote',
+    type = models.BooleanField(verbose_name=("Tip"), choices = type_choices)
+    action_type = models.BooleanField(choices = action_choices)  # False - 'Downvote', True - 'Upvote',
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

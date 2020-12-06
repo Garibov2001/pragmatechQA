@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from student.utils import FilterComments
 
 
 def home(request):
@@ -82,6 +83,9 @@ def page_create_topic(request):
 def question_detail(request, slug):
     question = get_object_or_404(Question, slug=slug)
     comments = question.comment_set.all()
+    # print('Comment: ')
+    # print(FilterComments(question))
+    # print(comments)
     if request.method=="POST":
         if request.is_ajax():
             if(request.POST['post_type'] == 'comment_create'):
@@ -169,7 +173,7 @@ def question_detail(request, slug):
     context={
         'comments' : comments,
         'question': question,
-        'student': Student.objects.first(),
+        'student': Student.objects.get(user = request.user),
     }
     return render(request, 'single-user/page-single-topic.html', context)
     

@@ -94,7 +94,7 @@
                 </div>
             </div>          
             {% for eachComment in comments %}
-                <div class="tt-item  {% if question.answer == eachComment.id %} tt-wrapper-success {% endif %} ">
+                <div class="tt-item  {% if question.answer == eachComment.id %} tt-wrapper-success {% elif eachComment.get_upvote < eachComment.get_downvote  %} tt-wrapper-danger {% endif %} ">
                     <input label='label_comment_id' type="hidden" value="{{eachComment.id}}">
                     <div class="tt-single-topic">
                         <div class="tt-item-header pt-noborder">
