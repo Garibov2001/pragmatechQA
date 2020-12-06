@@ -82,7 +82,7 @@ def question_detail(request, slug):
         question.save()
     context={
         'question': question,
-        'student': Student.objects.first(),
+        'student': Student.objects.get(user=request.user),
     }
     return render(request, 'single-user/page-single-topic.html', context)
     

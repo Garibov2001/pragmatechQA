@@ -4,7 +4,9 @@
 
 {% load action_methods %}
 
-
+{% block style %}
+<link href="{% static 'css/lightbox.css' %}" rel="stylesheet" />
+{% endblock style%}
 
 {% block content %}
 
@@ -38,9 +40,13 @@
                     </div>
                     <div class="tt-item-description">
                         {{ question.content|safe|linebreaks }}
+                        <div style="display: flex; justify-content: space-around;">
                         {%for question_image in question.questionimage_set.all%}
-                        <img src="{{question_image.image.url}}" alt="">
+                        <div>
+                        <a href="{{question_image.image.url}}" data-lightbox="imagegroup"><img style="width: auto; height:200px;"src="{{question_image.image.url}}" alt=""></a>
+                    </div>
                         {%endfor%}
+                    </div>
                     </div>
                     <div class="tt-item-info info-bottom">
                         <a href="#" class="tt-icon-btn" onclick="event.preventDefault(); actions({{question.id}},'{{request.user}}', 'question', 'like'); ">
@@ -485,6 +491,7 @@
 {% block script %}
 <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
 <script src="{% static 'js/actions.js' %}"></script>
+<script src="{% static 'js/lightbox.js' %}"></script>
 
 <!-- highlight.js-->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css"/>
